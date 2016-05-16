@@ -44,34 +44,17 @@ public class MetricsRxClient {
     ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext(true).build();
 
     rx.Observable<Long> metrics = rx.Observable.from(new Long[] {1L, 2L, 3L, 4L});
-
     MetricsRxClient client = new MetricsRxClient(channel);
-
     Future<StreamingExample.Average> future = client.collect(metrics.map(l -> StreamingExample.Metric.newBuilder().setMetric(l).build()));
-
     System.out.println("Average: " + future.get());
 
     channel.shutdownNow();
   }
 
   public Future<StreamingExample.Average> collect(Observable<StreamingExample.Metric> metrics) {
-    CompletableFuture<StreamingExample.Average> future = new CompletableFuture<>();
-    StreamObserver<StreamingExample.Metric> collector = stub.collect(new StreamObserver<StreamingExample.Average>() {
-      @Override
-      public void onNext(StreamingExample.Average value) {
-        future.complete(value);
-      }
+    // 1. Takes in an rx.Observable
+    // 2. Returns a CompletableFuture
 
-      @Override
-      public void onError(Throwable t) {
-        future.completeExceptionally(t);
-      }
-
-      @Override
-      public void onCompleted() {
-      }
-    });
-    metrics.doOnCompleted(collector::onCompleted).forEach(collector::onNext);
-    return future;
+    return null;
   }
 }

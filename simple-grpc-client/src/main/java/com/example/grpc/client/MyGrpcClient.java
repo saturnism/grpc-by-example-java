@@ -34,42 +34,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class MyGrpcClient {
   public static void main(String[] args) throws InterruptedException {
-    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
-        .loadBalancerFactory(SimpleLoadBalancerFactory.getInstance())
-        .usePlaintext(true)
-        .build();
-
-    GreetingServiceGrpc.GreetingServiceBlockingStub greetingService = GreetingServiceGrpc.newBlockingStub(channel);
-    Map<String, String> tricks = new HashMap<>();
-    tricks.put("live-coding", "not so great");
-
-    GreetingRequest request = GreetingRequest.newBuilder()
-        .setAge(20).setName("Ray")
-        .setSentiment(Sentiment.ANGRY).putAllBagOfTricks(tricks).build();
-    GreetingResponse response = greetingService.greet(request);
-    System.out.println(response.getGreeting());
-
-    GreetingServiceGrpc.GreetingServiceStub asyncStub = GreetingServiceGrpc.newStub(channel);
-    BufferUntilSubscriber<GreetingResponse> subject = BufferUntilSubscriber.create();
-    asyncStub.greet(request, new RxStreamObserver<GreetingResponse>() {
-      @Override
-      public void onNext(GreetingResponse greetingResponse) {
-        subject.onNext(greetingResponse);
-      }
-
-      @Override
-      public void onError(Throwable throwable) {
-        subject.onError(throwable);
-      }
-
-      @Override
-      public void onCompleted() {
-        subject.onCompleted();
-      }
-    });
-
-    System.out.println(subject.count());
-
-    channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+    // 1. Channel, ManagedChannel, usePlainText?
+    // 2. Load Balancing, Name Resolver
+    // 3. Blocking vs Non-blocking Stubs, oh and Futures
+    // 4. Builders
   }
 }

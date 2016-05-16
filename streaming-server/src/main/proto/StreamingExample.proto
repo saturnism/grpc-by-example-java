@@ -16,6 +16,7 @@
 
 syntax = "proto3";
 
+// 1. Imports, these now nice
 import "google/protobuf/timestamp.proto";
 package com.example.server.streaming;
 
@@ -28,6 +29,4 @@ message Average {
     double val = 1;
 }
 
-service MetricsService {
-    rpc collect(stream Metric) returns (Average);
-}
+// 2. MetricsService.collect - streaming request, unary response

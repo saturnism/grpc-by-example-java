@@ -30,29 +30,15 @@ import java.util.stream.Stream;
 public class MetricsClient {
   public static void main(String[] args) throws InterruptedException {
     ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext(true).build();
-    MetricsServiceGrpc.MetricsServiceStub stub = MetricsServiceGrpc.newStub(channel);
 
-    StreamObserver<StreamingExample.Metric> collect = stub.collect(new StreamObserver<StreamingExample.Average>() {
-      @Override
-      public void onNext(StreamingExample.Average value) {
-        System.out.println("Average: " + value.getVal());
-      }
+    // 1. Async Stub
 
-      @Override
-      public void onError(Throwable t) {
+    // 2. What does the implementation look like?
 
-      }
+    // 3. Let's use Java Streaming API Stream.of...
 
-      @Override
-      public void onCompleted() {
+    // 4. Don't forget onComplete
 
-      }
-    });
-
-    Stream.of(1L, 2L, 3L, 4L).map(l -> StreamingExample.Metric.newBuilder().setMetric(l).build())
-        .forEach(collect::onNext);
-    collect.onCompleted();
-
-    //channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+    // Lastly, take a look at RxClient example
   }
 }

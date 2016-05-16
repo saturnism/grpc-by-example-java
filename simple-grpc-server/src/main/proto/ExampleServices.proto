@@ -14,37 +14,10 @@
  * limitations under the License.
  */
 
-syntax = "proto3";
+// 1. syntax, package, option
 
-package com.example.server;
+// 2. message request, response, types, tags
 
-option java_multiple_files = true;
+// 3. enum, map, repeated
 
-enum Sentiment {
-    // 0 is required, and default
-    ANGRY = 0;
-    HAPPY = 1;
-    MEH = 2;
-}
-
-message GreetingRequest {
-    // reserved tags not be used
-    reserved 11, 12, 13;
-
-    // tags 1 to 15 takes only 1 byte
-    // tags 16 2047 takes only 2 bytes
-    // largest tag is 2^29 - 1: let's hope you never hit that....
-    string name = 1;
-    int32 age = 2;
-    Sentiment sentiment = 3;
-    repeated string hobbies = 4;
-    map<string, string> bagOfTricks=5;
-}
-
-message GreetingResponse {
-    string greeting = 1;
-}
-
-service GreetingService {
-    rpc Greet(GreetingRequest) returns (GreetingResponse);
-}
+// 4. service, unary request/response

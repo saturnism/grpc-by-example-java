@@ -31,31 +31,11 @@ public class ChatServiceImpl implements ChatServiceGrpc.ChatService {
   public StreamObserver<Chat.ChatMessage> chat(StreamObserver<Chat.ChatMessageFromServer> responseObserver) {
     observers.add(responseObserver);
 
-    return new StreamObserver<Chat.ChatMessage>() {
-      @Override
-      public void onNext(Chat.ChatMessage value) {
-        System.out.println(value);
-        Chat.ChatMessageFromServer message = Chat.ChatMessageFromServer.newBuilder()
-            .setMessage(value)
-            .setTimestamp(Timestamp.newBuilder().setSeconds(System.currentTimeMillis() / 1000))
-            .build();
+    // 1. Implement the server
+    // 2. Register the response observer
+    // 3. Make sure messages are propagated to all observers
+    // 4. Make sure observers are unregistered onError and onComplete
 
-        for (StreamObserver<Chat.ChatMessageFromServer> observer : observers) {
-          observer.onNext(message);
-        }
-      }
-
-      @Override
-      public void onError(Throwable t) {
-        observers.remove(responseObserver);
-        responseObserver.onError(t);
-      }
-
-      @Override
-      public void onCompleted() {
-        observers.remove(responseObserver);
-        responseObserver.onCompleted();
-      }
-    };
+    return null;
   }
 }

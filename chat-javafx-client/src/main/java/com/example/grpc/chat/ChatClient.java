@@ -37,17 +37,14 @@ public class ChatClient extends Application {
   private ListView<String> messagesView = new ListView<>();
   private TextField name = new TextField("name");
   private TextField message = new TextField();
-  private Button send = new Button();
+  private Button send = new Button("Send");
 
   public static void main(String[] args) {
     launch(args);
   }
 
-  @Override
-  public void start(Stage primaryStage) {
+  protected void init(Stage primaryStage) {
     messagesView.setItems(messages);
-
-    send.setText("Send");
 
     BorderPane pane = new BorderPane();
     pane.setLeft(name);
@@ -62,34 +59,22 @@ public class ChatClient extends Application {
     primaryStage.setScene(new Scene(root, 480, 320));
 
     primaryStage.show();
+  }
+
+  @Override
+  public void start(Stage primaryStage) {
+    init(primaryStage);
 
     ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext(true).build();
     ChatServiceGrpc.ChatServiceStub chatService = ChatServiceGrpc.newStub(channel);
-    StreamObserver<Chat.ChatMessage> chat = chatService.chat(new StreamObserver<Chat.ChatMessageFromServer>() {
-      @Override
-      public void onNext(Chat.ChatMessageFromServer value) {
-        Platform.runLater(() -> {
-          messages.add(value.getMessage().getFrom() + ": " + value.getMessage().getMessage());
-          messagesView.scrollTo(messages.size());
-        });
-      }
 
-      @Override
-      public void onError(Throwable t) {
-        t.printStackTrace();
-        System.out.println("Disconnected");
-      }
+    // 1. Implement primaryStage.setOnCloseRequest: shutdown!
 
-      @Override
-      public void onCompleted() {
-        System.out.println("Disconnected");
-      }
-    });
+    // 2. Make the call
 
-    send.setOnAction(e -> {
-      chat.onNext(Chat.ChatMessage.newBuilder().setFrom(name.getText()).setMessage(message.getText()).build());
-      message.setText("");
-    });
-    primaryStage.setOnCloseRequest(e -> {chat.onCompleted(); channel.shutdown(); });
+    // 3. Implement send.setOnAction: send the message
+
+    // 4. Make the messages show up with Platform.runLater, don't forget to scroll to the end
+
   }
 }
