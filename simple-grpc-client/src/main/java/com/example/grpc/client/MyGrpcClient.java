@@ -16,19 +16,6 @@
 
 package com.example.grpc.client;
 
-import com.example.server.GreetingRequest;
-import com.example.server.GreetingResponse;
-import com.example.server.GreetingServiceGrpc;
-import com.example.server.Sentiment;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.SimpleLoadBalancerFactory;
-import rx.internal.operators.BufferUntilSubscriber;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 /**
  * Created by rayt on 5/16/16.
  */

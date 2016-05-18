@@ -16,13 +16,8 @@
 
 package com.example.grpc.client;
 
-import com.example.server.streaming.MetricsServiceGrpc;
-import com.example.server.streaming.StreamingExample;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.grpc.stub.StreamObserver;
-
-import java.util.stream.Stream;
 
 /**
  * Created by rayt on 5/16/16.

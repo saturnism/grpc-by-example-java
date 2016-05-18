@@ -16,7 +16,6 @@
 
 package com.example.grpc.chat;
 
-import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 
 import java.util.LinkedHashSet;

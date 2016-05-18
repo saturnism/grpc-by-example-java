@@ -16,10 +16,6 @@
 
 package com.example.grpc.server;
 
-import com.example.server.GreetingServiceGrpc;
-import io.grpc.Server;
-import io.grpc.ServerBuilder;
-
 import java.io.IOException;
 
 /**
