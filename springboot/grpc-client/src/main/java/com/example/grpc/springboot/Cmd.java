@@ -16,6 +16,8 @@
 
 package com.example.grpc.springboot;
 
+import com.example.echo.EchoOuterClass;
+import com.example.echo.EchoServiceGrpc;
 import io.grpc.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -35,6 +37,17 @@ public class Cmd {
 
     Channel channel = channelFactory.createChannel("EchoService");
 
-    System.out.println(channel.authority());
+    int i = 0;
+    while (true) {
+      EchoServiceGrpc.EchoServiceBlockingStub stub = EchoServiceGrpc.newBlockingStub(channel);
+      EchoOuterClass.Echo response = stub.echo(EchoOuterClass.Echo.newBuilder().setMessage("Hello " + i).build());
+      System.out.println(response);
+      i++;
+
+      try {
+        Thread.sleep(100L);
+      } catch (InterruptedException e) {
+      }
+    }
   }
 }
