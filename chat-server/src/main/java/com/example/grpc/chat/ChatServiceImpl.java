@@ -16,6 +16,7 @@
 
 package com.example.grpc.chat;
 
+import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 
 import java.util.LinkedHashSet;
@@ -23,7 +24,7 @@ import java.util.LinkedHashSet;
 /**
  * Created by rayt on 5/16/16.
  */
-public class ChatServiceImpl implements ChatServiceGrpc.ChatService {
+public class ChatServiceImpl extends ChatServiceGrpc.ChatServiceImplBase {
   private static LinkedHashSet<StreamObserver<Chat.ChatMessageFromServer>> observers = new LinkedHashSet<>();
 
   @Override

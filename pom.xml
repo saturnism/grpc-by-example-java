@@ -35,14 +35,26 @@
         <module>streaming-client</module>
         <module>chat-server</module>
         <module>chat-javafx-client</module>
+        <!--
         <module>springboot</module>
+        -->
     </modules>
 
     <dependencies>
         <dependency>
             <groupId>io.grpc</groupId>
-            <artifactId>grpc-all</artifactId>
-            <version>0.14.0</version>
+            <artifactId>grpc-netty</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>

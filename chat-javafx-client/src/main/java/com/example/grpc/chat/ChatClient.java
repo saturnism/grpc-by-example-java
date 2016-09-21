@@ -63,7 +63,7 @@ public class ChatClient extends Application {
   public void start(Stage primaryStage) {
     init(primaryStage);
 
-    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext(true).build();
+    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9090).usePlaintext(true).build();
     ChatServiceGrpc.ChatServiceStub chatService = ChatServiceGrpc.newStub(channel);
 
     // 1. Implement primaryStage.setOnCloseRequest: shutdown!
