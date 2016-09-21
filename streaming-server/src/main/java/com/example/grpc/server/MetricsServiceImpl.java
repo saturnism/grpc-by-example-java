@@ -23,7 +23,7 @@ import io.grpc.stub.StreamObserver;
 /**
  * Created by rayt on 5/16/16.
  */
-public class MetricsServiceImpl implements MetricsServiceGrpc.MetricsService {
+public class MetricsServiceImpl extends MetricsServiceGrpc.MetricsServiceImplBase {
   @Override
   public StreamObserver<StreamingExample.Metric> collect(StreamObserver<StreamingExample.Average> responseObserver) {
     return new StreamObserver<StreamingExample.Metric>() {

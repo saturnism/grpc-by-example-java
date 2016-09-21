@@ -16,18 +16,12 @@
 
 package com.example.grpc.client;
 
-import com.example.server.GreetingRequest;
-import com.example.server.GreetingResponse;
-import com.example.server.GreetingServiceGrpc;
-import com.example.server.Sentiment;
+import com.example.grpc.GreetingServiceGrpc;
+import com.example.grpc.HelloRequest;
+import com.example.grpc.HelloResponse;
+import com.example.grpc.Sentiment;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.grpc.SimpleLoadBalancerFactory;
-import rx.internal.operators.BufferUntilSubscriber;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by rayt on 5/16/16.
@@ -35,41 +29,15 @@ import java.util.concurrent.TimeUnit;
 public class MyGrpcClient {
   public static void main(String[] args) throws InterruptedException {
     ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
-        .loadBalancerFactory(SimpleLoadBalancerFactory.getInstance())
         .usePlaintext(true)
         .build();
 
-    GreetingServiceGrpc.GreetingServiceBlockingStub greetingService = GreetingServiceGrpc.newBlockingStub(channel);
-    Map<String, String> tricks = new HashMap<>();
-    tricks.put("live-coding", "not so great");
+    GreetingServiceGrpc.GreetingServiceBlockingStub stub = GreetingServiceGrpc.newBlockingStub(channel);
 
-    GreetingRequest request = GreetingRequest.newBuilder()
-        .setAge(20).setName("Ray")
-        .setSentiment(Sentiment.ANGRY).putAllBagOfTricks(tricks).build();
-    GreetingResponse response = greetingService.greet(request);
-    System.out.println(response.getGreeting());
+    HelloResponse helloResponse = stub.greeting(HelloRequest.newBuilder().setName("Ray").setAge(18).setSentiment(Sentiment.HAPPY).build());
 
-    GreetingServiceGrpc.GreetingServiceStub asyncStub = GreetingServiceGrpc.newStub(channel);
-    BufferUntilSubscriber<GreetingResponse> subject = BufferUntilSubscriber.create();
-    asyncStub.greet(request, new RxStreamObserver<GreetingResponse>() {
-      @Override
-      public void onNext(GreetingResponse greetingResponse) {
-        subject.onNext(greetingResponse);
-      }
+    System.out.println(helloResponse);
 
-      @Override
-      public void onError(Throwable throwable) {
-        subject.onError(throwable);
-      }
-
-      @Override
-      public void onCompleted() {
-        subject.onCompleted();
-      }
-    });
-
-    System.out.println(subject.count());
-
-    channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+    channel.shutdown();
   }
 }

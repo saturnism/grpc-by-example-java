@@ -24,7 +24,7 @@ import java.util.LinkedHashSet;
 /**
  * Created by rayt on 5/16/16.
  */
-public class ChatServiceImpl implements ChatServiceGrpc.ChatService {
+public class ChatServiceImpl extends ChatServiceGrpc.ChatServiceImplBase {
   private static LinkedHashSet<StreamObserver<Chat.ChatMessageFromServer>> observers = new LinkedHashSet<>();
 
   @Override
@@ -47,14 +47,12 @@ public class ChatServiceImpl implements ChatServiceGrpc.ChatService {
 
       @Override
       public void onError(Throwable t) {
-        observers.remove(responseObserver);
-        responseObserver.onError(t);
+        // do something;
       }
 
       @Override
       public void onCompleted() {
         observers.remove(responseObserver);
-        responseObserver.onCompleted();
       }
     };
   }

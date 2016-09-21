@@ -27,7 +27,7 @@ import java.io.IOException;
  */
 public class MetricsServer {
   public static void main(String[] args) throws InterruptedException, IOException {
-    Server server = ServerBuilder.forPort(8080).addService(MetricsServiceGrpc.bindService(new MetricsServiceImpl())).build();
+    Server server = ServerBuilder.forPort(8080).addService(new MetricsServiceImpl()).build();
 
     server.start();
 
