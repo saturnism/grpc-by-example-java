@@ -35,6 +35,7 @@
         <module>streaming-client</module>
         <module>chat-server</module>
         <module>chat-javafx-client</module>
+        <module>auth-metadata-propagation</module>
         <!--
         <module>springboot</module>
         -->
