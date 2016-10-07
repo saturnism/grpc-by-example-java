@@ -71,11 +71,9 @@ public class GoodbyeServer {
 
     @Override
     public void secondGreeting(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
-      Context.current().wrap(() -> {
         GoodbyeResponse goodbye = goodbyeStub.goodbye(GoodbyeRequest.newBuilder().setName(request.getName()).build());
         System.out.println("Say Goodbye! " + goodbye);
         greeting(request, responseObserver);
-      });
     }
   }
 

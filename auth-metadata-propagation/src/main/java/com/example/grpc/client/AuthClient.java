@@ -45,17 +45,17 @@ public class AuthClient {
         .intercept(new TraceIdClientInterceptor())
         .build();
 
-    Context.current().withValue(Constant.TRACE_ID_CTX_KEY, "1").wrap(() -> {
+    Context.current().withValue(Constant.TRACE_ID_CTX_KEY, "1").run(() -> {
       GreetingServiceGrpc.GreetingServiceBlockingStub greetingStub = GreetingServiceGrpc.newBlockingStub(greetingChannel).withCallCredentials(callCredential);
       HelloResponse helloResponse = greetingStub.greeting(HelloRequest.newBuilder().setName("Ray").build());
       System.out.println(helloResponse);
-    }).run();
+    });
 
-    Context.current().withValue(Constant.TRACE_ID_CTX_KEY, "2").wrap(() -> {
+    Context.current().withValue(Constant.TRACE_ID_CTX_KEY, "2").run(() -> {
       GoodbyeServiceGrpc.GoodbyeServiceBlockingStub goodbyeStub = GoodbyeServiceGrpc.newBlockingStub(goodbyeChannel).withCallCredentials(callCredential);
       GoodbyeResponse goodbyeResponse = goodbyeStub.goodbye(GoodbyeRequest.newBuilder().setName("Jason").build());
       System.out.println(goodbyeResponse);
-    }).run();
+    });
   }
 
   public static String createJwt(String secret, String issuer, String subject) {
