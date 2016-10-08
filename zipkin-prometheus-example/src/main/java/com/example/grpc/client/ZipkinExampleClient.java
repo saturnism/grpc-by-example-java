@@ -23,6 +23,8 @@ import com.example.grpc.GoodbyeServiceGrpc;
 import com.github.kristofa.brave.grpc.BraveGrpcClientInterceptor;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import me.dinowernli.grpc.prometheus.Configuration;
+import me.dinowernli.grpc.prometheus.MonitoringClientInterceptor;
 
 /**
  * Created by rayt on 10/6/16.
@@ -32,6 +34,7 @@ public class ZipkinExampleClient {
     ManagedChannel goodbyeChannel = ManagedChannelBuilder.forAddress("localhost", 9090)
         .usePlaintext(true)
         .intercept(new BraveGrpcClientInterceptor(Constant.brave("client-example")))
+        .intercept(MonitoringClientInterceptor.create(Configuration.allMetrics()))
         .build();
 
     for (int i = 0; i < 100; i++) {

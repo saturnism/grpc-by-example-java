@@ -20,11 +20,14 @@ import com.example.grpc.Constant;
 import com.example.grpc.GreetingServiceGrpc;
 import com.example.grpc.HelloRequest;
 import com.example.grpc.HelloResponse;
+import com.github.kristofa.brave.Brave;
 import com.github.kristofa.brave.grpc.BraveGrpcServerInterceptor;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.ServerInterceptors;
 import io.grpc.stub.StreamObserver;
+import me.dinowernli.grpc.prometheus.Configuration;
+import me.dinowernli.grpc.prometheus.MonitoringServerInterceptor;
 
 import java.io.IOException;
 
@@ -33,8 +36,11 @@ import java.io.IOException;
  */
 public class GreetingServer {
   static public void main(String [] args) throws IOException, InterruptedException {
+    Brave brave = Constant.brave("greeting-service");
     Server greetingServer = ServerBuilder.forPort(8080)
-        .addService(ServerInterceptors.intercept(new GreetingServiceImpl(), new BraveGrpcServerInterceptor(Constant.brave("greeting-service"))))
+        .addService(ServerInterceptors.intercept(new GreetingServiceImpl(),
+            new BraveGrpcServerInterceptor(brave),
+            MonitoringServerInterceptor.create(Configuration.allMetrics())))
         .build();
     greetingServer.start();
 

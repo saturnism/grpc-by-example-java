@@ -17,10 +17,14 @@
 package com.example.grpc.server;
 
 import com.example.grpc.*;
+import com.github.kristofa.brave.Brave;
 import com.github.kristofa.brave.grpc.BraveGrpcClientInterceptor;
 import com.github.kristofa.brave.grpc.BraveGrpcServerInterceptor;
 import io.grpc.*;
 import io.grpc.stub.StreamObserver;
+import io.prometheus.client.CollectorRegistry;
+import me.dinowernli.grpc.prometheus.Configuration;
+import me.dinowernli.grpc.prometheus.MonitoringServerInterceptor;
 
 import java.io.IOException;
 
@@ -29,20 +33,27 @@ import java.io.IOException;
  */
 public class GoodbyeServer {
   static public void main(String[] args) throws IOException, InterruptedException {
-
+    Brave brave = Constant.brave("goodbye-service");
     ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
         .usePlaintext(true)
-        .intercept(new BraveGrpcClientInterceptor(Constant.brave("goodbye-service")))
+        .intercept(new BraveGrpcClientInterceptor(brave))
         .build();
     GreetingServiceGrpc.GreetingServiceBlockingStub greetingStub = GreetingServiceGrpc.newBlockingStub(channel);
 
     Server goodbyeServer = ServerBuilder.forPort(9090)
-        .addService(ServerInterceptors.intercept(new GoodbyeServiceImpl(greetingStub), new BraveGrpcServerInterceptor(Constant.brave("goodbye-service"))))
+        .addService(ServerInterceptors.intercept(new GoodbyeServiceImpl(greetingStub),
+            new BraveGrpcServerInterceptor(brave),
+            MonitoringServerInterceptor.create(Configuration.allMetrics())))
         .build();
+
     goodbyeServer.start();
+
+    PrometheusServer prometheusServer = new PrometheusServer(CollectorRegistry.defaultRegistry, 8081);
+    prometheusServer.start();
 
     System.out.println("Server started!");
     goodbyeServer.awaitTermination();
+    prometheusServer.shutdown();
   }
 
   public static class GoodbyeServiceImpl extends GoodbyeServiceGrpc.GoodbyeServiceImplBase {

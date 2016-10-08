@@ -25,7 +25,7 @@
         <relativePath>..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>zipkin-example</artifactId>
+    <artifactId>zipkin-prometheus-example</artifactId>
 
     <!-- 1. Plugins! Check out https://github.com/grpc/grpc-java -->
     <dependencies>
@@ -44,6 +44,21 @@
             <groupId>io.zipkin.reporter</groupId>
             <artifactId>zipkin-sender-urlconnection</artifactId>
             <version>0.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>me.dinowernli</groupId>
+            <artifactId>java-grpc-prometheus</artifactId>
+            <version>0.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wiperdog</groupId>
+            <artifactId>netty-servlet-bridge</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_servlet</artifactId>
+            <version>0.0.17</version>
         </dependency>
     </dependencies>
 
@@ -81,4 +96,10 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>dinowernli-github-repo</id>
+            <url>https://raw.github.com/dinowernli/maven-repos/master</url>
+        </repository>
+    </repositories>
 </project>
