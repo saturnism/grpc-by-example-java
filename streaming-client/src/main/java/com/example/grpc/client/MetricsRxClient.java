@@ -24,6 +24,7 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import rx.Observable;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -40,38 +41,21 @@ public class MetricsRxClient {
     this.stub = MetricsServiceGrpc.newStub(channel);
   }
 
+  public Observable<StreamingExample.Average> collect(Observable<StreamingExample.Metric> metrics) {
+    return Observable.create(new AverageOnSubscribe(metrics, stub));
+  }
+
   public static void main(String[] args) throws InterruptedException, ExecutionException {
     ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext(true).build();
 
-    rx.Observable<Long> metrics = rx.Observable.from(new Long[] {1L, 2L, 3L, 4L});
+    rx.Observable<Long> metrics = rx.Observable.from(new Long[] {1L, 2L, 3L, 4L, 5L, 6L, 7L});
 
     MetricsRxClient client = new MetricsRxClient(channel);
 
-    Future<StreamingExample.Average> future = client.collect(metrics.map(l -> StreamingExample.Metric.newBuilder().setMetric(l).build()));
+    Observable<StreamingExample.Average> avg = client.collect(metrics.map(l -> StreamingExample.Metric.newBuilder().setMetric(l).build()));
 
-    System.out.println("Average: " + future.get());
+    avg.forEach(System.out::println);
 
     channel.shutdownNow();
-  }
-
-  public Future<StreamingExample.Average> collect(Observable<StreamingExample.Metric> metrics) {
-    CompletableFuture<StreamingExample.Average> future = new CompletableFuture<>();
-    StreamObserver<StreamingExample.Metric> collector = stub.collect(new StreamObserver<StreamingExample.Average>() {
-      @Override
-      public void onNext(StreamingExample.Average value) {
-        future.complete(value);
-      }
-
-      @Override
-      public void onError(Throwable t) {
-        future.completeExceptionally(t);
-      }
-
-      @Override
-      public void onCompleted() {
-      }
-    });
-    metrics.doOnCompleted(collector::onCompleted).forEach(collector::onNext);
-    return future;
   }
 }
