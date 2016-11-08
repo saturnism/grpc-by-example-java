@@ -20,7 +20,9 @@ import com.example.grpc.Constant;
 import com.example.grpc.GreetingServiceGrpc;
 import com.example.grpc.HelloRequest;
 import com.example.grpc.HelloResponse;
-import io.grpc.*;
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
+import io.grpc.ServerInterceptors;
 import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
@@ -31,28 +33,14 @@ import java.io.IOException;
 public class GreetingServer {
   static public void main(String [] args) throws IOException, InterruptedException {
     JwtServerInterceptor jwtInterceptor = new JwtServerInterceptor(Constant.JWT_SECRET);
-    TraceIdServerInterceptor traceId = new TraceIdServerInterceptor();
 
     Server greetingServer = ServerBuilder.forPort(8080)
-        .addService(ServerInterceptors.intercept(new GreetingServiceImpl(),
-            new MetadataServerInterceptor(),
-            jwtInterceptor,
-            traceId))
+        .addService(ServerInterceptors.intercept(new GreetingServiceImpl(), jwtInterceptor, new TraceIdServerInterceptor()))
         .build();
     greetingServer.start();
 
     System.out.println("Server started!");
     greetingServer.awaitTermination();
-  }
-
-  public static class MetadataServerInterceptor implements ServerInterceptor {
-
-    @Override
-    public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> serverCall, Metadata metadata, ServerCallHandler<ReqT, RespT> serverCallHandler) {
-      System.out.println(metadata);
-      String clientId = metadata.get(Constant.CLIENT_ID_MD_KEY);
-      return serverCallHandler.startCall(serverCall, metadata);
-    }
   }
 
   public static class GreetingServiceImpl extends GreetingServiceGrpc.GreetingServiceImplBase {
@@ -63,6 +51,7 @@ public class GreetingServer {
       String userId = Constant.USER_ID_CTX_KEY.get();
       System.out.println("Greeting Service Trace ID: " + Constant.TRACE_ID_CTX_KEY.get());
       System.out.println("Greeting Service User ID: " + userId);
+
       String greeting = "Hello there, " + request.getName() + ", your userId is " + userId;
 
       HelloResponse response = HelloResponse.newBuilder().setGreeting(greeting).build();
