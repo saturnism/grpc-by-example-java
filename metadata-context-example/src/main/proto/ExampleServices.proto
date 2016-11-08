@@ -48,6 +48,22 @@ message GoodbyeResponse {
     string farewell = 1;
 }
 
+enum Language {
+    EN = 0;
+    ZH = 1;
+    ES = 3;
+}
+
+message TranslationRequest {
+    string message = 1;
+    Language from  = 2;
+    Language to = 3;
+}
+
+message TranslationResponse {
+    string message = 1;
+}
+
 // 4. service, unary request/response
 service GreetingService {
     rpc greeting(HelloRequest) returns (HelloResponse);
@@ -56,4 +72,8 @@ service GreetingService {
 
 service GoodbyeService {
     rpc goodbye(GoodbyeRequest) returns (GoodbyeResponse);
+}
+
+service TranslationService {
+    rpc translate(TranslationRequest) returns (TranslationResponse);
 }

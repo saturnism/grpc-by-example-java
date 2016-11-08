@@ -16,10 +16,7 @@
 
 package com.example.grpc.server;
 
-import com.example.grpc.Constant;
-import com.example.grpc.GreetingServiceGrpc;
-import com.example.grpc.HelloRequest;
-import com.example.grpc.HelloResponse;
+import com.example.grpc.*;
 import io.grpc.*;
 import io.grpc.stub.StreamObserver;
 
@@ -28,47 +25,26 @@ import java.io.IOException;
 /**
  * Created by rayt on 5/16/16.
  */
-public class GreetingServer {
+public class TranslationServer {
   static public void main(String [] args) throws IOException, InterruptedException {
     JwtServerInterceptor jwtInterceptor = new JwtServerInterceptor(Constant.JWT_SECRET);
 
-    Server greetingServer = ServerBuilder.forPort(8080)
-        .addService(ServerInterceptors.intercept(new GreetingServiceImpl(), new MetadataServerInterceptor()))
-//        .addService(ServerInterceptors.intercept(new GreetingServiceImpl(), jwtInterceptor, new TraceIdServerInterceptor()))
+    Server server = ServerBuilder.forPort(9095)
+        .addService(ServerInterceptors.intercept(new TranslationServiceImpl(), new GreetingServer.MetadataServerInterceptor()))
         .build();
-    greetingServer.start();
+    server.start();
 
     System.out.println("Server started!");
-    greetingServer.awaitTermination();
+    server.awaitTermination();
   }
 
-  public static class MetadataServerInterceptor implements ServerInterceptor {
-
+  public static class TranslationServiceImpl extends TranslationServiceGrpc.TranslationServiceImplBase {
     @Override
-    public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> serverCall, Metadata metadata, ServerCallHandler<ReqT, RespT> serverCallHandler) {
-      System.out.println(metadata);
-      return serverCallHandler.startCall(serverCall, metadata);
-    }
-  }
-
-  public static class GreetingServiceImpl extends GreetingServiceGrpc.GreetingServiceImplBase {
-    @Override
-    public void greeting(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
-      /*
-      System.out.println(request);
-
-      String userId = Constant.USER_ID_CTX_KEY.get();
-      System.out.println("Greeting Service Trace ID: " + Constant.TRACE_ID_CTX_KEY.get());
-      System.out.println("Greeting Service User ID: " + userId);
-      String greeting = "Hello there, " + request.getName() + ", your userId is " + userId;
-      */
-
-      String greeting = "Hello there, " + request.getName();
-
-      HelloResponse response = HelloResponse.newBuilder().setGreeting(greeting).build();
-
+    public void translate(TranslationRequest request, StreamObserver<TranslationResponse> responseObserver) {
+      TranslationResponse response = TranslationResponse.newBuilder().setMessage(request.getMessage() + request.getTo().toString()).build();
       responseObserver.onNext(response);
       responseObserver.onCompleted();
     }
   }
+
 }

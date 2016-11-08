@@ -17,13 +17,17 @@
 package com.example.grpc.client;
 
 import com.auth0.jwt.JWTSigner;
-import com.example.grpc.*;
-import com.example.grpc.server.TraceIdClientInterceptor;
-import io.grpc.Context;
+import com.example.grpc.Constant;
+import com.example.grpc.GreetingServiceGrpc;
+import com.example.grpc.HelloRequest;
+import io.grpc.Deadline;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.grpc.Metadata;
+import io.grpc.stub.MetadataUtils;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by rayt on 10/6/16.
@@ -37,9 +41,16 @@ public class AuthClient {
 
     ManagedChannel greetingChannel = ManagedChannelBuilder.forAddress("localhost", 8080)
         .usePlaintext(true)
-        .intercept(new TraceIdClientInterceptor())
         .build();
 
+    //GreetingServiceGrpc.GreetingServiceBlockingStub greetingStub = GreetingServiceGrpc.newBlockingStub(greetingChannel).withCallCredentials(callCredential);
+    GreetingServiceGrpc.GreetingServiceBlockingStub greetingStub = GreetingServiceGrpc.newBlockingStub(greetingChannel);
+    greetingStub.withCallCredentials(callCredential)
+        .withDeadline(Deadline.after(10, TimeUnit.SECONDS))
+        .greeting(HelloRequest.newBuilder().setName("Ray").build());
+
+
+    /*
     ManagedChannel goodbyeChannel = ManagedChannelBuilder.forAddress("localhost", 9090)
         .usePlaintext(true)
         .intercept(new TraceIdClientInterceptor())
@@ -56,6 +67,7 @@ public class AuthClient {
       GoodbyeResponse goodbyeResponse = goodbyeStub.goodbye(GoodbyeRequest.newBuilder().setName("Jason").build());
       System.out.println(goodbyeResponse);
     });
+    */
   }
 
   public static String createJwt(String secret, String issuer, String subject) {

@@ -52,9 +52,9 @@ public class MetricsRxClient {
 
     MetricsRxClient client = new MetricsRxClient(channel);
 
-    Observable<StreamingExample.Average> avg = client.collect(metrics.map(l -> StreamingExample.Metric.newBuilder().setMetric(l).build()));
-
-    avg.forEach(System.out::println);
+    client.collect(metrics
+        .map(l -> StreamingExample.Metric.newBuilder().setMetric(l).build()))
+        .subscribe(System.out::println);
 
     channel.shutdownNow();
   }
