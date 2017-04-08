@@ -22,7 +22,7 @@
         <artifactId>springboot</artifactId>
         <groupId>com.example</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>..</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -44,33 +44,13 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>springboot-grpc-server</artifactId>
+            <artifactId>springboot-grpc-echo-proto</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-actuator</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.github.saturnism.springboot</groupId>
-                    <artifactId>grpc-server-starter</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.saturnism.springboot</groupId>
             <artifactId>grpc-client-starter</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.14</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 

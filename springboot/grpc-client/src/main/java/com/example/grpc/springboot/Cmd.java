@@ -18,7 +18,6 @@ package com.example.grpc.springboot;
 
 import com.example.echo.EchoOuterClass;
 import com.example.echo.EchoServiceGrpc;
-import com.netflix.discovery.converters.Auto;
 import io.grpc.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
