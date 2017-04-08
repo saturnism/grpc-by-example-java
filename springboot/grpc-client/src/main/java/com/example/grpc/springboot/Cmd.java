@@ -20,6 +20,7 @@ import com.example.echo.EchoOuterClass;
 import com.example.echo.EchoServiceGrpc;
 import io.grpc.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.grpc.client.GrpcChannelFactory;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -32,7 +33,7 @@ import org.springframework.stereotype.Component;
 @EnableDiscoveryClient
 public class Cmd {
   @Autowired
-  public Cmd(ApplicationArguments args, GrpcChannelFactory channelFactory) {
+  public Cmd(ApplicationArguments args, @Qualifier("discoveryClientChannelFactory") GrpcChannelFactory channelFactory) {
     System.out.println("hello");
 
     Channel channel = channelFactory.createChannel("EchoService");
@@ -45,7 +46,7 @@ public class Cmd {
       i++;
 
       try {
-        Thread.sleep(100L);
+        Thread.sleep(10_000L);
       } catch (InterruptedException e) {
       }
     }

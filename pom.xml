@@ -37,6 +37,7 @@
         <module>chat-javafx-client</module>
         <module>metadata-context-example</module>
         <module>zipkin-prometheus-example</module>
+        <module>springboot</module>
         <!--
         <module>springboot</module>
         -->
