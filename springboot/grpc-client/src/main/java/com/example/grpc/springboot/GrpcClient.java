@@ -27,7 +27,6 @@ import org.springframework.stereotype.Component;
  * Created by rayt on 5/18/16.
  */
 @SpringBootApplication
-@Component
 @EnableEurekaClient
 public class GrpcClient {
   public static void main(String[] args) {
