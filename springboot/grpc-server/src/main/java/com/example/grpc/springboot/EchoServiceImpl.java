@@ -26,9 +26,12 @@ import org.springframework.boot.autoconfigure.grpc.server.GrpcService;
  */
 @GrpcService(EchoServiceGrpc.class)
 public class EchoServiceImpl implements EchoServiceGrpc.EchoService {
+
+
+
   @Override
   public void echo(EchoOuterClass.Echo request, StreamObserver<EchoOuterClass.Echo> responseObserver) {
-    System.out.println("#################################################################" + request);
+    System.out.println("####################" + request + " port ");
     responseObserver.onNext(request);
     responseObserver.onCompleted();
   }

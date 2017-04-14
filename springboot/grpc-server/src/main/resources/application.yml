@@ -1,0 +1,19 @@
+port: 9000
+grpc:
+  server:
+    port: ${port}
+spring:
+  application:
+    name: EchoService
+server:
+  port: ${port}
+#eureka.instance.instanceId=instance-2
+#eureka.instance.nonSecurePort=${server.port:9091}
+#eureka.instance.nonSecurePort=${server.port}
+
+
+eureka:
+  instance:
+    nonSecurePort: ${port}
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2

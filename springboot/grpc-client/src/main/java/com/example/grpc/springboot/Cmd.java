@@ -21,9 +21,10 @@ import com.example.echo.EchoServiceGrpc;
 import io.grpc.Channel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.grpc.client.GrpcChannelFactory;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,23 +33,26 @@ import org.springframework.stereotype.Component;
 @Component
 @EnableDiscoveryClient
 public class Cmd {
+	private int i = 0;
+	private GrpcChannelFactory channelFactory;
+	private DiscoveryClient discoveryClient;
+
   @Autowired
-  public Cmd(ApplicationArguments args, @Qualifier("discoveryClientChannelFactory") GrpcChannelFactory channelFactory) {
-    System.out.println("hello");
-
-    Channel channel = channelFactory.createChannel("EchoService");
-
-    int i = 0;
-    while (true) {
-      EchoServiceGrpc.EchoServiceBlockingStub stub = EchoServiceGrpc.newBlockingStub(channel);
-      EchoOuterClass.Echo response = stub.echo(EchoOuterClass.Echo.newBuilder().setMessage("Hello " + i).build());
-      System.out.println(response);
-      i++;
-
-      try {
-        Thread.sleep(10_000L);
-      } catch (InterruptedException e) {
-      }
-    }
+  public Cmd(@Qualifier("discoveryClientChannelFactory") GrpcChannelFactory channelFactory,
+						 DiscoveryClient discoveryClient ) {
+  	this.channelFactory = channelFactory;
+  	this.discoveryClient = discoveryClient;
   }
+
+	@Scheduled(fixedRate = 5000)
+	public void requestRegular() {
+		System.out.println("hello");
+		Channel channel = channelFactory.createChannel("EchoService");
+		discoveryClient.getServices();
+
+		EchoServiceGrpc.EchoServiceBlockingStub stub = EchoServiceGrpc.newBlockingStub(channel);
+		EchoOuterClass.Echo response = stub.echo(EchoOuterClass.Echo.newBuilder().setMessage("Hello " + i).build());
+		System.out.println(response);
+		i++;
+	}
 }
