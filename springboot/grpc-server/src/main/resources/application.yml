@@ -1,4 +1,4 @@
-port: 9000
+port: 9004
 grpc:
   server:
     port: ${port}

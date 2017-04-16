@@ -48,11 +48,11 @@ public class Cmd {
 	public void requestRegular() {
 		System.out.println("hello");
 		Channel channel = channelFactory.createChannel("EchoService");
-		discoveryClient.getServices();
+//		discoveryClient.getServices();
 
+    i++;
 		EchoServiceGrpc.EchoServiceBlockingStub stub = EchoServiceGrpc.newBlockingStub(channel);
 		EchoOuterClass.Echo response = stub.echo(EchoOuterClass.Echo.newBuilder().setMessage("Hello " + i).build());
 		System.out.println(response);
-		i++;
 	}
 }

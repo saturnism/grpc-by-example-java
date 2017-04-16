@@ -19,7 +19,7 @@
         <spring.boot.version>1.5.2.RELEASE</spring.boot.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <netty.version>1.1.33.Fork14</netty.version>
+        <netty.version>2.0.0.Final</netty.version>
         <os.plugin.version>1.4.0.Final</os.plugin.version>
     </properties>
 
