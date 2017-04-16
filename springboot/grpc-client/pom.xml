@@ -27,16 +27,24 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>springboot-grpc-client</artifactId>
-
-
-    <properties>
-        <grpc.version>1.0.0</grpc.version>
-        <protoc.version>3.0.0-beta-2</protoc.version>
-        <protoc.plugin.version>0.5.0</protoc.plugin.version>
-    </properties>
-
-
+    
     <dependencies>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
