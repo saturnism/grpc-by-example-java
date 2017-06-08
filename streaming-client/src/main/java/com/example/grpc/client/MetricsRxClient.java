@@ -54,8 +54,8 @@ public class MetricsRxClient {
 
     client.collect(metrics
         .map(l -> StreamingExample.Metric.newBuilder().setMetric(l).build()))
-        .subscribe(System.out::println);
-
-    channel.shutdownNow();
+        .subscribe(avg -> {
+          System.out.println(avg);
+        });
   }
 }

@@ -66,6 +66,6 @@ public class AverageOnSubscribe implements Observable.OnSubscribe<StreamingExamp
     });
 
     metrics.forEach(toServer::onNext);
-
+    toServer.onCompleted();
   }
 }
