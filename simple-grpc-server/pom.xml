@@ -27,6 +27,19 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>simple-grpc-server</artifactId>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <mainClass>com.example.grpc.server.MyGrpcServer</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <!-- 1. Plugins! Check out https://github.com/grpc/grpc-java -->
 
 </project>
