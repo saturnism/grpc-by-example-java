@@ -65,7 +65,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <configuration>
-                    <mainClass>com.example.grpc.server.MyGrpcServer</mainClass>
+                    <mainClass>com.example.grpc.chat.ChatServer</mainClass>
                 </configuration>
             </plugin>
         </plugins>
