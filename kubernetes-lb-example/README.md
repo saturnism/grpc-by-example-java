@@ -76,3 +76,7 @@ endpoints. `NameResolver.refresh()` would need to be called
 explicitly. On the otherhand, `refresh` will be automatically
 called when a connected server shutdown. See [discussion](https://groups.google.com/forum/#!topic/grpc-io/wxgLgjzkR30)
 
+Other Examples
+--------------
+* [Spring Boot, Eureka, and gRPC w/ Client-side Load Balancing](https://github.com/saturnism/grpc-java-demos/tree/master/springboot)
+* [Zookeeper and gRPC w/ Client-side Load Balancing](https://github.com/makdharma/grpc-zookeeper-lb)
