@@ -80,3 +80,8 @@ Other Examples
 --------------
 * [Spring Boot, Eureka, and gRPC w/ Client-side Load Balancing](https://github.com/saturnism/grpc-java-demos/tree/master/springboot)
 * [Zookeeper and gRPC w/ Client-side Load Balancing](https://github.com/makdharma/grpc-zookeeper-lb)
+
+Other Solutions
+---------------
+* Use a proxy, like [Envoy](https://lyft.github.io/envoy/) or [Linkerd](https://linkerd.io/features/grpc/)
+* Use [Istio](https://istio.io/)
