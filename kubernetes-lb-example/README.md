@@ -27,6 +27,9 @@ $ kubectl logs -f echo-client...
 You may notice that each client instance may be connected to a specific
 server instance. This is because the connection is persistent.
 
+When you scale out the server instances, connections are not
+automatically rebalanced.
+
 Client-side Load Balancing
 --------------------------
 To use gRPC client-side load balancing, you'll need a service discovery
@@ -49,7 +52,6 @@ For the DNS client-side load balancing example, use the `DnsNameResolver`,
 and for target, use `dns://service-name:port`. Finally, use a client-side
 load balancer strategy, such as the `RoundRobinLoadBalancer`.
 
-
 Deploy the example:
 ```
 $ kubectl apply -f kubernetes/client-side-lb/
@@ -65,7 +67,12 @@ For each instance, see the logs:
 $ kubectl logs -f echo-client...
 ```
 
-You may notice that each client instance may be connected to a specific
-server instance. This is because the connection is persistent.
+You may notice that each client is now calling different server
+instances more evenly.
 
+The entries don't automatically refresh. E.g., if you scale out 
+the server instances, the existing clients will not see the new
+endpoints. `NameResolver.refresh()` would need to be called
+explicitly. On the otherhand, `refresh` will be automatically
+called when a connected server shutdown. See [discussion](https://groups.google.com/forum/#!topic/grpc-io/wxgLgjzkR30)
 
