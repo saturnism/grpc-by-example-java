@@ -26,6 +26,7 @@ import io.grpc.util.RoundRobinLoadBalancerFactory;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -39,6 +40,7 @@ import java.util.concurrent.Executors;
  */
 public class ClientSideLoadBalancedEchoClient {
   private static int THREADS = 4;
+  private static Random RANDOM = new Random();
 
   public static void main(String[] args) throws InterruptedException, UnknownHostException {
     String target = System.getenv("ECHO_SERVICE_TARGET");
@@ -46,12 +48,12 @@ public class ClientSideLoadBalancedEchoClient {
       target = "localhost:8080";
     }
     final ManagedChannel channel = ManagedChannelBuilder.forTarget(target)
-        .nameResolverFactory(new DnsNameResolverProvider())
+        .nameResolverFactory(new DnsNameResolverProvider())  // this is on by default
         .loadBalancerFactory(RoundRobinLoadBalancerFactory.getInstance())
         .usePlaintext(true)
         .build();
 
-    final String host = InetAddress.getLocalHost().getHostName();
+    final String self = InetAddress.getLocalHost().getHostName();
 
     ExecutorService executorService = Executors.newFixedThreadPool(THREADS);
     for (int i = 0; i < THREADS; i++) {
@@ -59,11 +61,11 @@ public class ClientSideLoadBalancedEchoClient {
       executorService.submit(() -> {
         while (true) {
           EchoResponse response = stub.echo(EchoRequest.newBuilder()
-              .setMessage(host + ": " + Thread.currentThread().getName())
+              .setMessage(self + ": " + Thread.currentThread().getName())
               .build());
           System.out.println(response.getFrom() + " echoed");
 
-          Thread.sleep(700);
+          Thread.sleep(RANDOM.nextInt(700));
         }
       });
     }

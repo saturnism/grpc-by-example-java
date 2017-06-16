@@ -11,7 +11,8 @@ the running server instances.
 
 Deploy the example:
 ```
-$ kubectl apply -f kubernetes/l4-lb/
+$ kubectl apply -f kubernetes/l4-lb/echo-server.yaml
+$ kubectl apply -f kubernetes/l4-lb/echo-client.yaml
 ```
 
 Find the client instances:
@@ -54,7 +55,8 @@ load balancer strategy, such as the `RoundRobinLoadBalancer`.
 
 Deploy the example:
 ```
-$ kubectl apply -f kubernetes/client-side-lb/
+$ kubectl apply -f kubernetes/client-side-lb/echo-server.yaml
+$ kubectl apply -f kubernetes/client-side-lb/echo-client.yaml
 ```
 
 Find the client instances:
@@ -75,6 +77,40 @@ the server instances, the existing clients will not see the new
 endpoints. `NameResolver.refresh()` would need to be called
 explicitly. On the otherhand, `refresh` will be automatically
 called when a connected server shutdown. See [discussion](https://groups.google.com/forum/#!topic/grpc-io/wxgLgjzkR30)
+
+Proxy Load Balancing with Linkerd
+---------------------------------
+The last example uses Linkerd as a proxy that will load balance the traffic on behalf of the client.
+It's possible to run Linkerd as a sidecar for the pod and have the gRPC client connect to its own proxy.
+However, all documentation indicates that approach would be inefficient use of resource for Linkerd.
+
+In this example, Linkerd is deployed as a DaemonSet. On each Kubernetes node, it'll expose node port 4140.
+gRPC client should connect to its respective node port.
+
+The client will make a request against the URL `/svc/com.example.grpc.EchoService`. In the Linkerd configuration,
+under `dtab`, it maps the gRPC URL to `/svc/com.example.grpc.EchoService => /#/io.l5d.k8s/default/grpc/echo-server`.
+Which means, to use the `io.l5d.k8s` namer, find the `echo-server` service, for the port named `grpc`, in the `default`
+namespace. The `echo-service` is configured as a headless service, because we shouldn't use the L4 load balancer.
+
+Finally, on the client side, it uses Kubernetes Downwards API to fetch the name of the Kubernetes node that the
+client is running on, and configure gRPC client to open a connection to the node's port 4140.
+
+Deploy the example:
+```
+$ kubectl apply -f kubernetes/linkerd-lb/linkerd-grpc.yaml
+$ kubectl apply -f kubernetes/linkerd-lb/echo-server.yaml
+$ kubectl apply -f kubernetes/linkerd-lb/echo-client.yaml
+```
+
+Find the client instances:
+```
+$ kubectl get pods -l run=echo-client
+```
+
+For each instance, see the logs:
+```
+$ kubectl logs -f echo-client...
+```
 
 Other Examples
 --------------

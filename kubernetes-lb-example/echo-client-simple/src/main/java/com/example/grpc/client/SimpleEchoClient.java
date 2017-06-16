@@ -24,6 +24,7 @@ import io.grpc.ManagedChannelBuilder;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -33,17 +34,16 @@ import java.util.concurrent.Executors;
  */
 public class SimpleEchoClient {
   private static int THREADS = 4;
+  private static Random RANDOM = new Random();
 
   public static void main(String[] args) throws InterruptedException, UnknownHostException {
-    String target = System.getenv("ECHO_SERVICE_TARGET");
-    if (target == null || target.isEmpty()) {
-      target = "localhost:8080";
-    }
-    final ManagedChannel channel = ManagedChannelBuilder.forTarget(target)
+    String host = System.getenv("ECHO_SERVICE_HOST");
+    String port = System.getenv("ECHO_SERVICE_PORT");
+    final ManagedChannel channel = ManagedChannelBuilder.forAddress(host, Integer.valueOf(port))
         .usePlaintext(true)
         .build();
 
-    final String host = InetAddress.getLocalHost().getHostName();
+    final String self = InetAddress.getLocalHost().getHostName();
 
     ExecutorService executorService = Executors.newFixedThreadPool(THREADS);
     for (int i = 0; i < THREADS; i++) {
@@ -51,11 +51,11 @@ public class SimpleEchoClient {
       executorService.submit(() -> {
         while (true) {
           EchoResponse response = stub.echo(EchoRequest.newBuilder()
-              .setMessage(host + ": " + Thread.currentThread().getName())
+              .setMessage(self + ": " + Thread.currentThread().getName())
               .build());
           System.out.println(response.getFrom() + " echoed");
 
-          Thread.sleep(700);
+          Thread.sleep(RANDOM.nextInt(700));
         }
       });
     }

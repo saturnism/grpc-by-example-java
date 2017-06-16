@@ -19,6 +19,8 @@ spec:
         image: saturnism/echo-client-simple
         env:
         - name: ECHO_SERVICE_HOST
-          value: echo-server
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
         - name: ECHO_SERVICE_PORT
-          value: "8080"
+          value: "4140"
