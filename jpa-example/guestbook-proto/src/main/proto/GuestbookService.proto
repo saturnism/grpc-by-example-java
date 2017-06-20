@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package com.example.guestbook;
+
+message Limit {
+    int32 page = 1;
+    int32 size = 2;
+}
+
+message DeleteRequest {
+    int64 id = 1;
+}
+
+message FindRequest {
+    int64 id = 1;
+}
+
+message GuestbookEntry {
+    int64 id = 1;
+    string username = 2;
+    string message = 3;
+}
+
+service GuestbookService {
+    rpc all(Limit) returns (stream GuestbookEntry);
+    rpc find(FindRequest) returns (GuestbookEntry);
+    rpc delete(DeleteRequest) returns (google.protobuf.Empty);
+}

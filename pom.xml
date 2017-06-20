@@ -42,6 +42,7 @@
         <module>metadata-context-example</module>
         <module>zipkin-prometheus-example</module>
         <module>springboot</module>
+        <module>jpa-example</module>
     </modules>
 
     <dependencies>
