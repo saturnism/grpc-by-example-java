@@ -21,8 +21,11 @@ message GuestbookEntry {
     string message = 3;
 }
 
+message DeleteResponse {
+}
+
 service GuestbookService {
     rpc all(Limit) returns (stream GuestbookEntry);
     rpc find(FindRequest) returns (GuestbookEntry);
-    rpc delete(DeleteRequest) returns (google.protobuf.Empty);
+    rpc delete(DeleteRequest) returns (DeleteResponse);
 }

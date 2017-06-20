@@ -50,8 +50,9 @@ public class GuestbookServiceGrpcImpl extends GuestbookServiceGrpc.GuestbookServ
   }
 
   @Override
-  public void delete(GuestbookServiceOuterClass.DeleteRequest request, StreamObserver<GuestbookServiceOuterClass.GuestbookEntry> responseObserver) {
+  public void delete(GuestbookServiceOuterClass.DeleteRequest request, StreamObserver<GuestbookServiceOuterClass.DeleteResponse> responseObserver) {
     repository.delete(request.getId());
+    responseObserver.onNext(GuestbookServiceOuterClass.DeleteResponse.getDefaultInstance());
     responseObserver.onCompleted();
   }
 }
