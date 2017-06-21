@@ -32,9 +32,15 @@ public class MyGrpcClient {
         .usePlaintext(true)
         .build();
 
-    GreetingServiceGrpc.GreetingServiceBlockingStub stub = GreetingServiceGrpc.newBlockingStub(channel);
+    GreetingServiceGrpc.GreetingServiceBlockingStub stub =
+        GreetingServiceGrpc.newBlockingStub(channel);
 
-    HelloResponse helloResponse = stub.greeting(HelloRequest.newBuilder().setName("Ray").setAge(18).setSentiment(Sentiment.HAPPY).build());
+    HelloResponse helloResponse = stub.greeting(
+        HelloRequest.newBuilder()
+            .setName("Ray")
+            .setAge(18)
+            .setSentiment(Sentiment.HAPPY)
+            .build());
 
     System.out.println(helloResponse);
 
