@@ -10,7 +10,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>kubernetes-clientside-lb</artifactId>
+    <groupId>com.example.kubernetes</groupId>
+    <artifactId>kubernetes-lb-example</artifactId>
     <packaging>pom</packaging>
 
     <properties>
@@ -20,6 +21,7 @@
     <modules>
         <module>echo-server</module>
         <module>echo-client-simple</module>
-        <module>echo-client-lb</module>
+        <module>echo-client-lb-dns</module>
+        <module>echo-client-lb-api</module>
     </modules>
 </project>

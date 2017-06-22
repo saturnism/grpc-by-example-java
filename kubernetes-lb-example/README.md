@@ -31,8 +31,8 @@ server instance. This is because the connection is persistent.
 When you scale out the server instances, connections are not
 automatically rebalanced.
 
-Client-side Load Balancing
---------------------------
+Client-side Load Balancing w/ DNS Service Discovery
+---------------------------------------------------
 To use gRPC client-side load balancing, you'll need a service discovery
 mechanism. For example, Zookeper, Eureka, Consul, etc.
 
@@ -55,8 +55,8 @@ load balancer strategy, such as the `RoundRobinLoadBalancer`.
 
 Deploy the example:
 ```
-$ kubectl apply -f kubernetes/client-side-lb/echo-server.yaml
-$ kubectl apply -f kubernetes/client-side-lb/echo-client.yaml
+$ kubectl apply -f kubernetes/client-side-lb-dns/echo-server.yaml
+$ kubectl apply -f kubernetes/client-side-lb-dns/echo-client.yaml
 ```
 
 Find the client instances:
@@ -77,6 +77,38 @@ the server instances, the existing clients will not see the new
 endpoints. `NameResolver.refresh()` would need to be called
 explicitly. On the otherhand, `refresh` will be automatically
 called when a connected server shutdown. See [discussion](https://groups.google.com/forum/#!topic/grpc-io/wxgLgjzkR30)
+
+
+Client-side Load Balancing w/ Kubernetes API Service Discovery
+--------------------------------------------------------------
+Rather than using the DNS discovery, you can also use Kubernetes API directly to discover
+server instance endpoints. Similar to DNS discovery, you can create a headless service.
+Then, observe the Kubernete's Endpoints resource:
+1. Fetch an initial list
+1. Start a watcher to receive endpoints updates
+
+Deploy the example:
+```
+$ kubectl apply -f kubernetes/client-side-lb-dns/echo-server.yaml
+$ kubectl apply -f kubernetes/client-side-lb-dns/echo-client.yaml
+```
+
+Find the client instances:
+```
+$ kubectl get pods -l run=echo-client
+```
+
+For each instance, see the logs:
+```
+$ kubectl logs -f echo-client...
+```
+
+Try to scale the number of `echo-server` instances and observe that the client
+is able to connect w/ the new instances quickly:
+
+```
+$ kubectl scale deployment echo-server --replicas=4
+```
 
 Proxy Load Balancing with Linkerd
 ---------------------------------

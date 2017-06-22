@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: echo-client
-        image: saturnism/echo-client-lb
+        image: saturnism/echo-client-lb-api
         env:
         - name: ECHO_SERVICE_TARGET
-          value: dns:///echo-server:8080
+          value: kubernetes:///default/echo-server/8080

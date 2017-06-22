@@ -43,6 +43,7 @@
         <module>zipkin-prometheus-example</module>
         <module>springboot</module>
         <module>jpa-example</module>
+        <module>kubernetes-lb-example</module>
     </modules>
 
     <dependencies>
