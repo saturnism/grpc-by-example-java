@@ -22,7 +22,7 @@ public class KubernetesNameResolverProvider extends NameResolverProvider {
 
   @Override
   protected boolean isAvailable() {
-    return false;
+    return true;
   }
 
   @Override
