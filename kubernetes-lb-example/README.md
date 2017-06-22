@@ -89,8 +89,8 @@ Then, observe the Kubernete's Endpoints resource:
 
 Deploy the example:
 ```
-$ kubectl apply -f kubernetes/client-side-lb-dns/echo-server.yaml
-$ kubectl apply -f kubernetes/client-side-lb-dns/echo-client.yaml
+$ kubectl apply -f kubernetes/client-side-lb-api/echo-server.yaml
+$ kubectl apply -f kubernetes/client-side-lb-api/echo-client.yaml
 ```
 
 Find the client instances:
