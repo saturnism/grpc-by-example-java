@@ -65,6 +65,7 @@ public class KubernetesNameResolver extends NameResolver {
 
   @Override
   public void shutdown() {
+    kubernetesClient.close();
   }
 
   @Override
