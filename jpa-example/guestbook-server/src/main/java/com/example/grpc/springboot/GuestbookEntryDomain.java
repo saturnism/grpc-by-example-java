@@ -16,7 +16,8 @@
 
 package com.example.grpc.springboot;
 
-import com.example.guestbook.GuestbookServiceOuterClass;
+import com.example.guestbook.AddRequest;
+import com.example.guestbook.GuestbookEntry;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,13 +27,28 @@ import javax.persistence.Id;
  * Created by rayt on 6/20/17.
  */
 @Entity
-public class GuestbookEntry {
+public class GuestbookEntryDomain {
   @Id
   @GeneratedValue
   private Long id;
 
   private String username;
   private String message;
+
+  public static GuestbookEntryDomain fromProto(GuestbookEntry proto) {
+    GuestbookEntryDomain entry = new GuestbookEntryDomain();
+    entry.setId(proto.getId());
+    entry.setUsername(proto.getUsername());
+    entry.setMessage(proto.getMessage());
+    return entry;
+  }
+
+  public static GuestbookEntryDomain fromProto(AddRequest proto) {
+    GuestbookEntryDomain entry = new GuestbookEntryDomain();
+    entry.setUsername(proto.getUsername());
+    entry.setMessage(proto.getMessage());
+    return entry;
+  }
 
   public Long getId() {
     return id;
@@ -58,19 +74,11 @@ public class GuestbookEntry {
     this.message = message;
   }
 
-  public GuestbookServiceOuterClass.GuestbookEntry toProto() {
-    return GuestbookServiceOuterClass.GuestbookEntry.newBuilder()
+  public GuestbookEntry toProto() {
+    return GuestbookEntry.newBuilder()
         .setId(getId())
         .setUsername(getUsername())
         .setMessage(getMessage())
         .build();
-  }
-
-  public static GuestbookEntry fromProto(GuestbookServiceOuterClass.GuestbookEntry proto) {
-    GuestbookEntry entry = new GuestbookEntry();
-    entry.setId(proto.getId());
-    entry.setUsername(proto.getUsername());
-    entry.setMessage(proto.getMessage());
-    return entry;
   }
 }

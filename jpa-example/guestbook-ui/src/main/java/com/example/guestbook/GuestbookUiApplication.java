@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Google, Inc.
+ * Copyright 2015 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.example.guestbook;
 
-package com.example.grpc.springboot;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.stereotype.Repository;
+@SpringBootApplication
+public class GuestbookUiApplication {
 
-/**
- * Created by rayt on 6/20/17.
- */
-@Repository
-public interface GuestbookRepository extends PagingAndSortingRepository<GuestbookEntryDomain, Long> {
+	public static void main(String[] args) {
+		SpringApplication.run(GuestbookUiApplication.class, args);
+	}
 }

@@ -2,16 +2,16 @@ syntax = "proto3";
 
 package com.example.guestbook;
 
-message Limit {
-    int32 page = 1;
-    int32 size = 2;
+option java_multiple_files = true;
+
+message AllRequest {
 }
 
 message DeleteRequest {
     int64 id = 1;
 }
 
-message FindRequest {
+message FindOneRequest {
     int64 id = 1;
 }
 
@@ -24,8 +24,18 @@ message GuestbookEntry {
 message DeleteResponse {
 }
 
+message AddRequest {
+    string username = 1;
+    string message = 2;
+}
+
+message AddResponse {
+    int64 id = 1;
+}
+
 service GuestbookService {
-    rpc all(Limit) returns (stream GuestbookEntry);
-    rpc find(FindRequest) returns (GuestbookEntry);
+    rpc all(AllRequest) returns (stream GuestbookEntry);
+    rpc findOne(FindOneRequest) returns (GuestbookEntry);
     rpc delete(DeleteRequest) returns (DeleteResponse);
+    rpc add(AddRequest) returns (AddResponse);
 }

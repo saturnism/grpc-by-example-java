@@ -63,12 +63,6 @@
             <groupId>com.github.saturnism.spring-boot-starter-grpc</groupId>
             <artifactId>grpc-server-starter</artifactId>
             <version>master</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.grpc</groupId>
-                    <artifactId>grpc-all</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 

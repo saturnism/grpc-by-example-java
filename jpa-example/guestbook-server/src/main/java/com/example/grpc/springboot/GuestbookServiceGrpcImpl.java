@@ -16,15 +16,14 @@
 
 package com.example.grpc.springboot;
 
-import com.example.guestbook.GuestbookServiceGrpc;
-import com.example.guestbook.GuestbookServiceOuterClass;
+import com.example.guestbook.*;
 import io.grpc.stub.StreamObserver;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.boot.autoconfigure.grpc.server.GrpcService;
 
 /**
  * Created by rayt on 6/20/17.
  */
+@GrpcService(GuestbookServiceGrpc.class)
 public class GuestbookServiceGrpcImpl extends GuestbookServiceGrpc.GuestbookServiceImplBase {
   private final GuestbookRepository repository;
 
@@ -33,16 +32,16 @@ public class GuestbookServiceGrpcImpl extends GuestbookServiceGrpc.GuestbookServ
   }
 
   @Override
-  public void all(GuestbookServiceOuterClass.Limit request, StreamObserver<GuestbookServiceOuterClass.GuestbookEntry> responseObserver) {
-    Pageable pageable = new PageRequest(request.getPage(), request.getSize());
-    repository.findAll(pageable).map(e -> e.toProto())
-        .forEach(responseObserver::onNext);
+  public void all(AllRequest request, StreamObserver<GuestbookEntry> responseObserver) {
+    repository.findAll().forEach(e -> {
+      responseObserver.onNext(e.toProto());
+    });
     responseObserver.onCompleted();
   }
 
   @Override
-  public void find(GuestbookServiceOuterClass.FindRequest request, StreamObserver<GuestbookServiceOuterClass.GuestbookEntry> responseObserver) {
-    GuestbookEntry entry = repository.findOne(request.getId());
+  public void findOne(FindOneRequest request, StreamObserver<GuestbookEntry> responseObserver) {
+    GuestbookEntryDomain entry = repository.findOne(request.getId());
     if (entry != null) {
       responseObserver.onNext(entry.toProto());
     }
@@ -50,9 +49,19 @@ public class GuestbookServiceGrpcImpl extends GuestbookServiceGrpc.GuestbookServ
   }
 
   @Override
-  public void delete(GuestbookServiceOuterClass.DeleteRequest request, StreamObserver<GuestbookServiceOuterClass.DeleteResponse> responseObserver) {
+  public void delete(DeleteRequest request, StreamObserver<DeleteResponse> responseObserver) {
     repository.delete(request.getId());
-    responseObserver.onNext(GuestbookServiceOuterClass.DeleteResponse.getDefaultInstance());
+    responseObserver.onNext(DeleteResponse.getDefaultInstance());
+    responseObserver.onCompleted();
+  }
+
+  @Override
+  public void add(AddRequest request, StreamObserver<AddResponse> responseObserver) {
+    GuestbookEntryDomain entry = GuestbookEntryDomain.fromProto(request);
+    entry = repository.save(entry);
+    responseObserver.onNext(AddResponse.newBuilder()
+        .setId(entry.getId())
+        .build());
     responseObserver.onCompleted();
   }
 }
