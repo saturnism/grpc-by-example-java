@@ -35,8 +35,7 @@
     <modules>
         <module>simple-grpc-server</module>
         <module>simple-grpc-client</module>
-        <module>streaming-server</module>
-        <module>streaming-client</module>
+        <module>streaming-example</module>
         <module>chat-server</module>
         <module>chat-javafx-client</module>
         <module>metadata-context-example</module>
