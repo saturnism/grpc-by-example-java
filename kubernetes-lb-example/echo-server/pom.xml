@@ -22,7 +22,7 @@
     <artifactId>echo-server</artifactId>
     <parent>
         <version>1.0-SNAPSHOT</version>
-        <groupId>com.example</groupId>
+        <groupId>com.example.kubernetes</groupId>
         <artifactId>kubernetes-lb-example</artifactId>
         <relativePath>../pom.xml</relativePath>
     </parent>

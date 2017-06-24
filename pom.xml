@@ -36,8 +36,7 @@
         <module>simple-grpc-server</module>
         <module>simple-grpc-client</module>
         <module>streaming-example</module>
-        <module>chat-server</module>
-        <module>chat-javafx-client</module>
+        <module>chat-example</module>
         <module>metadata-context-example</module>
         <module>zipkin-prometheus-example</module>
         <module>springboot-example</module>
