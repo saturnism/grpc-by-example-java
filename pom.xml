@@ -40,7 +40,7 @@
         <module>chat-javafx-client</module>
         <module>metadata-context-example</module>
         <module>zipkin-prometheus-example</module>
-        <module>springboot</module>
+        <module>springboot-example</module>
         <module>jpa-example</module>
         <module>kubernetes-lb-example</module>
         <module>error-handling-example</module>
