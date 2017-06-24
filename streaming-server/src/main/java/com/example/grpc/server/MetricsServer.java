@@ -16,7 +16,6 @@
 
 package com.example.grpc.server;
 
-import com.example.server.streaming.MetricsServiceGrpc;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 

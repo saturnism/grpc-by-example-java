@@ -23,7 +23,7 @@ import org.springframework.boot.autoconfigure.grpc.server.GrpcService;
 /**
  * Created by rayt on 6/20/17.
  */
-@GrpcService(GuestbookServiceGrpc.class)
+@GrpcService
 public class GuestbookServiceGrpcImpl extends GuestbookServiceGrpc.GuestbookServiceImplBase {
   private final GuestbookRepository repository;
 

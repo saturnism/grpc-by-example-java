@@ -44,6 +44,7 @@
         <module>springboot</module>
         <module>jpa-example</module>
         <module>kubernetes-lb-example</module>
+        <module>error-handling-example</module>
     </modules>
 
     <dependencies>

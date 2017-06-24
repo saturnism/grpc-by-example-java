@@ -21,7 +21,6 @@ import com.example.grpc.EchoResponse;
 import com.example.grpc.EchoServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.grpc.internal.DnsNameResolverProvider;
 import io.grpc.util.RoundRobinLoadBalancerFactory;
 
 import java.net.InetAddress;

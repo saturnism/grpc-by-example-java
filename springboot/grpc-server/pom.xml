@@ -62,7 +62,6 @@
         <dependency>
             <groupId>com.github.saturnism.spring-boot-starter-grpc</groupId>
             <artifactId>grpc-server-starter</artifactId>
-            <version>master</version>
         </dependency>
     </dependencies>
 

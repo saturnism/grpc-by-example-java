@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-package com.example.grpc.springboot;
+package com.example.grpc.server;
 
-import com.example.echo.EchoOuterClass;
-import com.example.echo.EchoServiceGrpc;
-import io.grpc.stub.StreamObserver;
-import org.springframework.boot.autoconfigure.grpc.server.GrpcService;
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
+
+import java.io.IOException;
 
 /**
- * Created by rayt on 5/18/16.
+ * Created by rayt on 5/16/16.
  */
-@GrpcService
-public class EchoServiceImpl extends EchoServiceGrpc.EchoServiceImplBase {
-  @Override
-  public void echo(EchoOuterClass.Echo request, StreamObserver<EchoOuterClass.Echo> responseObserver) {
-    System.out.println("Received:" + request);
-    responseObserver.onNext(request);
-    responseObserver.onCompleted();
+public class ErrorGrpcServer {
+  static public void main(String[] args) throws IOException, InterruptedException {
+    Server server = ServerBuilder.forPort(8080)
+        .addService(new ErrorServiceImpl()).build();
+
+    System.out.println("Starting server...");
+    server.start();
+    System.out.println("Server started!");
+    server.awaitTermination();
   }
 }

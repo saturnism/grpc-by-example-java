@@ -35,6 +35,16 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>com.github.saturnism.spring-boot-starter-grpc</groupId>
+                <artifactId>grpc-server-starter</artifactId>
+                <version>master-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.saturnism.spring-boot-starter-grpc</groupId>
+                <artifactId>grpc-client-starter</artifactId>
+                <version>master-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

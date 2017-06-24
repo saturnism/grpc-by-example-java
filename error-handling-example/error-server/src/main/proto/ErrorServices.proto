@@ -14,22 +14,26 @@
  * limitations under the License.
  */
 
-package com.example.grpc.springboot;
+// 1. syntax, package, option
+syntax = "proto3";
 
-import com.example.echo.EchoOuterClass;
-import com.example.echo.EchoServiceGrpc;
-import io.grpc.stub.StreamObserver;
-import org.springframework.boot.autoconfigure.grpc.server.GrpcService;
+package com.example.grpc.error;
 
-/**
- * Created by rayt on 5/18/16.
- */
-@GrpcService
-public class EchoServiceImpl extends EchoServiceGrpc.EchoServiceImplBase {
-  @Override
-  public void echo(EchoOuterClass.Echo request, StreamObserver<EchoOuterClass.Echo> responseObserver) {
-    System.out.println("Received:" + request);
-    responseObserver.onNext(request);
-    responseObserver.onCompleted();
-  }
+option java_multiple_files = true;
+
+message EchoRequest {
+    string message = 1;
+}
+
+message EchoResponse {
+    string message = 1;
+}
+
+// 4. service, unary request/response
+service ErrorService {
+    rpc notImplemented(EchoRequest) returns (EchoResponse);
+    rpc customUnwrapException(EchoRequest) returns (EchoResponse);
+    rpc customException(EchoRequest) returns (EchoResponse);
+    rpc uncaughtExceptions(EchoRequest) returns (EchoResponse);
+    rpc deadlineExceeded(EchoRequest) returns (EchoResponse);
 }

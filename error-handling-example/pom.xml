@@ -10,20 +10,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example.jpa</groupId>
-    <artifactId>jpa-example</artifactId>
+    <groupId>com.example.errors</groupId>
+    <artifactId>error-handling-example</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>guestbook-proto</module>
-        <module>guestbook-server</module>
-        <module>guestbook-ui</module>
+        <module>error-server</module>
+        <module>error-handling-client</module>
     </modules>
-
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
 </project>

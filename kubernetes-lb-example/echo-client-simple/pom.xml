@@ -24,7 +24,7 @@
         <version>1.0-SNAPSHOT</version>
         <groupId>com.example</groupId>
         <artifactId>kubernetes-lb-example</artifactId>
-        <relativePath>..</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <properties>
