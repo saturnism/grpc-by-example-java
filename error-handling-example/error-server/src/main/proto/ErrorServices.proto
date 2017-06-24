@@ -29,7 +29,6 @@ message EchoResponse {
     string message = 1;
 }
 
-// 4. service, unary request/response
 service ErrorService {
     rpc notImplemented(EchoRequest) returns (EchoResponse);
     rpc customUnwrapException(EchoRequest) returns (EchoResponse);
