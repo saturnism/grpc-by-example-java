@@ -44,6 +44,11 @@ public class ErrorServiceImpl extends ErrorServiceGrpc.ErrorServiceImplBase {
   }
 
   @Override
+  public void automaticallyWrappedException(EchoRequest request, StreamObserver<EchoResponse> responseObserver) {
+    responseObserver.onError(new IllegalArgumentException("This exception message and the stacktrace should automatically propagate to the client"));
+  }
+
+  @Override
   public void deadlineExceeded(EchoRequest request, StreamObserver<EchoResponse> responseObserver) {
     Context context = Context.current();
 
@@ -66,7 +71,5 @@ public class ErrorServiceImpl extends ErrorServiceGrpc.ErrorServiceImplBase {
       }
       logger.log(Level.INFO, "deadlineExceeded(): The call ended after ~" + secondsElapsed + " seconds");
     });
-
-
   }
 }

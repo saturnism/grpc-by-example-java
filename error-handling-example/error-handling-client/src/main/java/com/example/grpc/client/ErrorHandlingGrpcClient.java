@@ -88,6 +88,13 @@ public class ErrorHandlingGrpcClient {
       }
     }
 
+    // Server-side automatically wrapped the IllegalArgumentException via an interceptor
+    try {
+      stub.automaticallyWrappedException(request);
+    } catch (StatusRuntimeException e) {
+      logger.log(Level.SEVERE, e.getMessage(), e);
+    }
+
     channel.shutdown();
   }
 }

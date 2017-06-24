@@ -18,16 +18,22 @@ package com.example.grpc.server;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.ServerInterceptors;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Created by rayt on 5/16/16.
  */
 public class ErrorGrpcServer {
   static public void main(String[] args) throws IOException, InterruptedException {
+    UnknownStatusDescriptionInterceptor unknownStatusDescriptionInterceptor = new UnknownStatusDescriptionInterceptor(Arrays.asList(
+        IllegalArgumentException.class
+    ));
     Server server = ServerBuilder.forPort(8080)
-        .addService(new ErrorServiceImpl()).build();
+        .addService(ServerInterceptors.intercept(new ErrorServiceImpl(), unknownStatusDescriptionInterceptor))
+        .build();
 
     System.out.println("Starting server...");
     server.start();

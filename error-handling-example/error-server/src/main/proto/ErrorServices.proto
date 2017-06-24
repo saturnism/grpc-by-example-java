@@ -36,4 +36,5 @@ service ErrorService {
     rpc customException(EchoRequest) returns (EchoResponse);
     rpc uncaughtExceptions(EchoRequest) returns (EchoResponse);
     rpc deadlineExceeded(EchoRequest) returns (EchoResponse);
+    rpc automaticallyWrappedException(EchoRequest) returns (EchoResponse);
 }
