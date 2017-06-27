@@ -19,13 +19,19 @@ package com.example.grpc.chat;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 
+import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by rayt on 5/16/16.
  */
 public class ChatServiceImpl extends ChatServiceGrpc.ChatServiceImplBase {
-  private static LinkedHashSet<StreamObserver<Chat.ChatMessageFromServer>> observers = new LinkedHashSet<>();
+  // @aiborisov mentioned this needs to be thread safe. It was using non-thread-safe HashSet
+  private static Set<StreamObserver<Chat.ChatMessageFromServer>> observers =
+      Collections.newSetFromMap(new ConcurrentHashMap<>());
 
   @Override
   public StreamObserver<Chat.ChatMessage> chat(StreamObserver<Chat.ChatMessageFromServer> responseObserver) {
