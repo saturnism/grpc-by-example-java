@@ -84,10 +84,7 @@
       <version>0.9.1</version>
       <scope>test</scope>
     </dependency>
-
-
     <!--TDD stuff-->
-
     <dependency>
       <groupId>org.rapidpm</groupId>
       <artifactId>rapidpm-functional-reactive</artifactId>
@@ -184,44 +181,6 @@
     </plugins>
   </build>
 
-  <profiles>
-    <profile>
-      <!-- Vaadin pre-release repositories -->
-      <id>vaadin-prerelease</id>
-      <activation>
-      </activation>
 
-      <repositories>
-        <repository>
-          <id>vaadin-prereleases</id>
-          <url>http://maven.vaadin.com/vaadin-prereleases</url>
-        </repository>
-        <repository>
-          <id>vaadin-snapshots</id>
-          <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-          <releases>
-            <enabled>false</enabled>
-          </releases>
-          <snapshots>
-          </snapshots>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>vaadin-prereleases</id>
-          <url>http://maven.vaadin.com/vaadin-prereleases</url>
-        </pluginRepository>
-        <pluginRepository>
-          <id>vaadin-snapshots</id>
-          <url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-          <releases>
-            <enabled>false</enabled>
-          </releases>
-          <snapshots>
-          </snapshots>
-        </pluginRepository>
-      </pluginRepositories>
-    </profile>
-  </profiles>
 
 </project>
