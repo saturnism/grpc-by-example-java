@@ -15,61 +15,72 @@
  */
 package com.example.chat;
 
-import com.example.grpc.chat.Chat;
-import com.example.grpc.chat.ChatServiceGrpc;
-import com.vaadin.annotations.Push;
-import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.*;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
-import io.grpc.Status;
-import io.grpc.StatusRuntimeException;
-import io.grpc.stub.StreamObserver;
-
-import javax.servlet.annotation.WebInitParam;
-import javax.servlet.annotation.WebServlet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.example.grpc.chat.Chat;
+import com.example.grpc.chat.ChatServiceGrpc;
+import com.vaadin.annotations.PreserveOnRefresh;
+import com.vaadin.annotations.Push;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 
 /**
  * Created by rayt on 6/25/17.
  */
 @Push
+@PreserveOnRefresh
 public class ChatUI extends UI {
+
   private static final Logger logger = Logger.getLogger(ChatUI.class.getName());
-  private static final ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9090)
+  private static final ManagedChannel channel = ManagedChannelBuilder
+      .forAddress("localhost" , 9090)
       .usePlaintext(true)
       .build();
+
   private static final ChatServiceGrpc.ChatServiceStub stub = ChatServiceGrpc.newStub(channel);
+
+
+  private final VerticalLayout layout = new VerticalLayout();
+  private final TextField name = new TextField();
+  private final TextField message = new TextField();
+  private final Button button = new Button("Send");
+
+
+  public ChatUI() {
+
+    name.setId("tf.name");
+    name.setCaption("Type your name here:");
+
+    message.setId("tf.message");
+    message.setCaption("Type your message here:");
+
+    layout.addComponents(name , message , button);
+    setContent(layout);
+  }
 
   @Override
   protected void init(VaadinRequest vaadinRequest) {
 
-    final VerticalLayout layout = new VerticalLayout();
-
-    final TextField name = new TextField();
-    name.setCaption("Type your name here:");
-
-    final TextField message = new TextField();
-    message.setCaption("Type your message here:");
-
-    Button button = new Button("Send");
-
+    final UI currentUI = getCurrent();
     final StreamObserver<Chat.ChatMessage> observer = stub.chat(new StreamObserver<Chat.ChatMessageFromServer>() {
       @Override
       public void onNext(Chat.ChatMessageFromServer chatMessageFromServer) {
-        access(() -> {
-          layout.addComponent(new Label(String.format("%s: %s",
-              chatMessageFromServer.getMessage().getFrom(),
-              chatMessageFromServer.getMessage().getMessage())));
-        });
+        currentUI.access(() -> layout.addComponent(new Label(String.format("%s: %s" ,
+                                                                           chatMessageFromServer.getMessage().getFrom() ,
+                                                                           chatMessageFromServer.getMessage().getMessage()))));
       }
 
       @Override
       public void onError(Throwable throwable) {
-        logger.log(Level.SEVERE, "gRPC Error", throwable);
+        logger.log(Level.SEVERE , "gRPC Error" , throwable);
       }
 
       @Override
@@ -79,21 +90,16 @@ public class ChatUI extends UI {
     });
 
     button.addClickListener(e -> {
+
+      final String nameValue = name.getValue();
+      final String messageValue = message.getValue();
+
       observer.onNext(Chat.ChatMessage.newBuilder()
-          .setFrom(name.getValue())
-          .setMessage(message.getValue())
-          .build());
+                                      .setFrom(nameValue)
+                                      .setMessage(messageValue)
+                                      .build());
     });
 
-    layout.addComponents(name, message, button);
-
-    setContent(layout);
-
   }
 
-  @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-  @VaadinServletConfiguration(ui = ChatUI.class, productionMode = false)
-  @WebInitParam(name = "pushmode", value = "automatic")
-  public static class ChatUIServlet extends VaadinServlet {
-  }
 }
