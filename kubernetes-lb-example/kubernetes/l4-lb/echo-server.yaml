@@ -26,7 +26,8 @@ metadata:
   name: echo-server
 spec:
   ports:
-  - port: 8080
+  - name: grpc
+    port: 8080
     protocol: TCP
     targetPort: 8080
   selector:
