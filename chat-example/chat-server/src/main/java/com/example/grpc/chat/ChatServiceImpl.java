@@ -30,8 +30,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ChatServiceImpl extends ChatServiceGrpc.ChatServiceImplBase {
   // @aiborisov mentioned this needs to be thread safe. It was using non-thread-safe HashSet
-  private static Set<StreamObserver<Chat.ChatMessageFromServer>> observers =
-      Collections.newSetFromMap(new ConcurrentHashMap<>());
+  private static Set<StreamObserver<Chat.ChatMessageFromServer>> observers = ConcurrentHashMap.newKeySet();
+//      Collections.newSetFromMap(new ConcurrentHashMap<>());
 
   @Override
   public StreamObserver<Chat.ChatMessage> chat(StreamObserver<Chat.ChatMessageFromServer> responseObserver) {

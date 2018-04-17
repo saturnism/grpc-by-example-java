@@ -146,7 +146,7 @@ $ kubectl logs -f echo-client...
 
 Other Examples
 --------------
-* [Spring Boot, Eureka, and gRPC w/ Client-side Load Balancing](https://github.com/saturnism/grpc-java-demos/tree/master/springboot)
+* [Spring Boot, Eureka, and gRPC w/ Client-side Load Balancing](https://github.com/saturnism/grpc-java-by-example/tree/master/springboot-example)
 * [Zookeeper and gRPC w/ Client-side Load Balancing](https://github.com/makdharma/grpc-zookeeper-lb)
 
 Other Solutions
