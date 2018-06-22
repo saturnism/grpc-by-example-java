@@ -144,6 +144,37 @@ For each instance, see the logs:
 $ kubectl logs -f echo-client...
 ```
 
+Proxy Load Balancing with Istio
+-------------------------------
+[Istio](https://istio.io) is a Service Mesh that essentially deploys an Envoy proxy per microservice instance.
+Istio automatically intercepts the requests and forward the request to a sidecar proxy (i.e., there is a proxy instance
+running along side of every microservice instance). The proxy can automatically discover backend instances and
+perform L7 load balancing. There is a lot more Istio can do - traffic routing, request retries, ciruit breaking, etc.
+
+1. [bootstrap a Kubernetes cluster with Istio](https://istio.io/docs/setup/kubernetes/quick-start/)
+1. [Enable automatic sidecar injection](https://istio.io/docs/setup/kubernetes/sidecar-injection/#automatic-sidecar-injection)
+
+Then, deploy the example:
+```
+$ kubectl apply -f kubernetes/istio-lb/echo-server.yaml
+$ kubectl apply -f kubernetes/istio-lb/echo-client.yaml
+```
+
+These files are essentially the same file as the `l4-lb` example. I.e., unlike other examples that require
+changes to the code base, when using Istio, L7 load balancing will be automatically applied.
+
+Find the client instances:
+```
+$ kubectl get pods -l run=echo-client
+```
+
+For each instance, see the logs:
+```
+$ kubectl logs -f echo-client...
+```
+
+
+
 Other Examples
 --------------
 * [Spring Boot, Eureka, and gRPC w/ Client-side Load Balancing](https://github.com/saturnism/grpc-java-by-example/tree/master/springboot-example)

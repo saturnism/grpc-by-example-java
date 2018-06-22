@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: echo-server
+  name: echo-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: echo-server
+  template:
+    metadata:
+      labels:
+        run: echo-server
+    spec:
+      containers:
+      - name: echo-server
+        image: saturnism/echo-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: echo-server
+  name: echo-server
+spec:
+  ports:
+  - name: grpc
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: echo-server
+  sessionAffinity: None
+  type: ClusterIP

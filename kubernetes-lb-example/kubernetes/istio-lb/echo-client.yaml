@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: echo-client
+  name: echo-client
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: echo-client
+  template:
+    metadata:
+      labels:
+        run: echo-client
+    spec:
+      containers:
+      - name: echo-client
+        image: saturnism/echo-client-simple
+        env:
+        - name: ECHO_SERVICE_HOST
+          value: echo-server
+        - name: ECHO_SERVICE_PORT
+          value: "8080"
