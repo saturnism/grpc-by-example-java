@@ -1,0 +1,11 @@
+version: '3'
+services:
+  echo-server:
+    image: saturnism/echo-server
+  echo-client:
+    image: saturnism/echo-client-simple
+    links:
+     - echo-server
+    environment:
+     - ECHO_SERVICE_HOST=echo-server
+     - ECHO_SERVICE_PORT=8080
