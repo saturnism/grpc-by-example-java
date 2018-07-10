@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">simple-grpc-client-android</string>
+    <string name="loading">Loading</string>
+</resources>
