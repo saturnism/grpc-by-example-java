@@ -1,0 +1,37 @@
+/**
+ * :=  created by:  Shuza
+ * :=  create date:  {DATE}
+ * :=  (C) CopyRight Shuza
+ * :=  www.shuza.ninja
+ * :=  shuza.sa@gmail.com
+ * :=  Fun  :  Coffee  :  Code
+ **/
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_generic_services = true;
+package com.example.learn;
+
+enum Sentiment {
+    HAPPY = 0;
+    SLEEPY = 1;
+    ANGRY = 2;
+}
+
+message HelloRequest {
+    string name = 1;
+    int32 age = 2;
+    repeated string hobbies = 3;
+    map<string, string> bagOfTricks = 4;
+    Sentiment sentiment = 5;
+}
+
+message HelloResponse {
+    string greeting = 1;
+}
+
+// 4. service, unary request/response
+service GreetingService {
+    rpc greeting (HelloRequest) returns (HelloResponse);
+}

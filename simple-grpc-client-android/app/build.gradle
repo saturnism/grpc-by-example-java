@@ -1,0 +1,71 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.protobuf'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.example.grpc.client"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0'
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.0.0-pre2'
+        }
+        javalite {
+            artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            javalite {}
+        }
+        ofNonTest()*.plugins {
+            grpc {
+                // Options added to --grpc_out
+                option 'lite'
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //  GRPC dependencies
+    implementation 'javax.annotation:javax.annotation-api:1.2'
+    implementation 'io.grpc:grpc-protobuf-lite:1.12.0'
+    implementation 'io.grpc:grpc-okhttp:1.12.0'
+    implementation 'io.grpc:grpc-stub:1.12.0'
+
+    //  rx java
+    implementation "io.reactivex.rxjava2:rxjava:$rx_java_verstion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rx_android"
+
+    //  dialog library
+    implementation 'com.github.d-max:spots-dialog:0.7@aar'
+}
