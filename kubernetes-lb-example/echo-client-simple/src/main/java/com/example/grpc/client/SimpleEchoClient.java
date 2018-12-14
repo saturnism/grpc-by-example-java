@@ -36,11 +36,11 @@ public class SimpleEchoClient {
   private static int THREADS = 4;
   private static Random RANDOM = new Random();
 
-  public static void main(String[] args) throws InterruptedException, UnknownHostException {
+  public static void main(String[] args) throws UnknownHostException {
     String host = System.getenv("ECHO_SERVICE_HOST");
     String port = System.getenv("ECHO_SERVICE_PORT");
-    final ManagedChannel channel = ManagedChannelBuilder.forAddress(host, Integer.valueOf(port))
-        .usePlaintext(true)
+    final ManagedChannel channel = ManagedChannelBuilder.forTarget(host + ":" + port)
+		.usePlaintext()
         .build();
 
     final String self = InetAddress.getLocalHost().getHostName();
@@ -50,12 +50,16 @@ public class SimpleEchoClient {
       EchoServiceGrpc.EchoServiceBlockingStub stub = EchoServiceGrpc.newBlockingStub(channel);
       executorService.submit(() -> {
         while (true) {
-          EchoResponse response = stub.echo(EchoRequest.newBuilder()
-              .setMessage(self + ": " + Thread.currentThread().getName())
-              .build());
-          System.out.println(response.getFrom() + " echoed");
+        	try {
+              EchoResponse response = stub.echo(EchoRequest.newBuilder()
+                      .setMessage(self + ": " + Thread.currentThread().getName())
+                      .build());
+              System.out.println(response.getFrom() + " echoed");
 
-          Thread.sleep(RANDOM.nextInt(700));
+              Thread.sleep(RANDOM.nextInt(700));
+            } catch (Exception e) {
+        		e.printStackTrace();
+            }
         }
       });
     }
