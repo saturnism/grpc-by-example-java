@@ -30,3 +30,6 @@ message Average {
 }
 
 // 2. MetricsService.collect - streaming request, unary response
+service MetricsService {
+    rpc collect(stream Metric) returns (Average);
+}
