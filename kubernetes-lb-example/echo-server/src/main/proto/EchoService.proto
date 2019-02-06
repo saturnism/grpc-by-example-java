@@ -29,7 +29,6 @@ message EchoResponse {
     string from = 2;
 }
 
-
 service EchoService {
     rpc echo(EchoRequest) returns (EchoResponse);
 }
