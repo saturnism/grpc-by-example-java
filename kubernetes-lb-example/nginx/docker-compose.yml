@@ -1,0 +1,11 @@
+version: '3'
+services:
+  nginx-grpc:
+    build: .
+    ports:
+    - "8080:80"
+    command: nginx -g 'daemon off;'
+  echo-server:
+    image: saturnism/echo-server:latest
+    ports:
+    - "8080"
