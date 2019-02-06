@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: echo-server
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - grpc-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /com.example.grpc.EchoService/
+    route:
+    - destination:
+        host: echo-server

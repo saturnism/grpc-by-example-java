@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: echo-server-filter
+spec:
+  workloadLabels:
+    app: echo-server
+  filters:
+  - listenerMatch:
+      portNumber: 8080
+      listenerType: SIDECAR_INBOUND
+    filterName: envoy.grpc_web
+    filterType: HTTP
+    filterConfig: {}
+    insertPosition:
+      index: FIRST
