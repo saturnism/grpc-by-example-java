@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package com.example.demo;
+option java_multiple_files = true;
+
+message GreetingRequest {
+    string name = 1;
+}
+
+message GreetingResponse {
+    string greeting = 2;
+}
+
+
+message WhoRequest {
+}
+
+message WhoResponse {
+    string key = 1;
+    string value = 2;
+}
+
+service MyService {
+    rpc greeting(GreetingRequest) returns (GreetingResponse);
+    rpc who(WhoRequest) returns (stream WhoResponse);
+}
