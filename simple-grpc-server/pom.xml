@@ -27,6 +27,10 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>simple-grpc-server</artifactId>
 
+    <properties>
+        <main.class>com.example.grpc.server.MyGrpcServer</main.class>
+    </properties>
+
     <build>
         <extensions>
             <extension>
@@ -35,6 +39,12 @@
             </extension>
         </extensions>
         <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
