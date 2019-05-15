@@ -16,24 +16,35 @@
 
 package com.example.grpc.server;
 
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoop;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.*;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
+import io.grpc.netty.shaded.io.netty.bootstrap.ServerBootstrap;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufOutputStream;
+import io.grpc.netty.shaded.io.netty.buffer.Unpooled;
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFutureListener;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.channel.ChannelInitializer;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPipeline;
+import io.grpc.netty.shaded.io.netty.channel.EventLoopGroup;
+import io.grpc.netty.shaded.io.netty.channel.SimpleChannelInboundHandler;
+import io.grpc.netty.shaded.io.netty.channel.nio.NioEventLoopGroup;
+import io.grpc.netty.shaded.io.netty.channel.socket.SocketChannel;
+import io.grpc.netty.shaded.io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.FullHttpResponse;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpHeaderNames;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpMethod;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpRequest;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpRequestDecoder;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpResponseEncoder;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpResponseStatus;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpVersion;
+import io.grpc.netty.shaded.io.netty.handler.logging.LogLevel;
+import io.grpc.netty.shaded.io.netty.handler.logging.LoggingHandler;
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.exporter.common.TextFormat;
 
 import java.io.OutputStreamWriter;
-import java.net.InetSocketAddress;
-import java.util.Collections;
 
 /**
  * Created by rayt on 10/8/16.

@@ -18,7 +18,6 @@ package com.example.grpc.client;
 
 import com.example.server.streaming.MetricsServiceGrpc;
 import com.example.server.streaming.StreamingExample;
-import com.sun.javafx.font.Metrics;
 import io.grpc.stub.StreamObserver;
 import rx.Observable;
 import rx.Subscriber;

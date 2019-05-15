@@ -14,8 +14,8 @@
     <packaging>pom</packaging>
 
     <properties>
-        <spring.boot.version>1.5.2.RELEASE</spring.boot.version>
-        <spring.cloud.version>Camden.SR6</spring.cloud.version>
+        <spring.boot.version>2.1.4.RELEASE</spring.boot.version>
+        <spring.cloud.version>Greenwich.SR1</spring.cloud.version>
     </properties>
 
     <dependencyManagement>

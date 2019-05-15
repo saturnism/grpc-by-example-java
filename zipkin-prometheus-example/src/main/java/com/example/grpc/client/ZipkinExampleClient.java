@@ -32,7 +32,7 @@ import me.dinowernli.grpc.prometheus.MonitoringClientInterceptor;
 public class ZipkinExampleClient {
   public static void main(String[] args) {
     ManagedChannel goodbyeChannel = ManagedChannelBuilder.forAddress("localhost", 9090)
-        .usePlaintext(true)
+        .usePlaintext()
         .intercept(new BraveGrpcClientInterceptor(Constant.brave("client-example")))
         .intercept(MonitoringClientInterceptor.create(Configuration.allMetrics()))
         .build();
