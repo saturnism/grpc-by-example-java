@@ -97,9 +97,10 @@ public class KubernetesNameResolver extends NameResolver {
 
   private void update(Endpoints endpoints) {
       List<EquivalentAddressGroup> servers = new ArrayList<>();
+      if (endpoints.getSubsets() == null) return;
       endpoints.getSubsets().stream().forEach(subset -> {
         long matchingPorts = subset.getPorts().stream().filter(p -> {
-          return p.getPort() == port;
+          return p != null && p.getPort() == port;
         }).count();
         if (matchingPorts > 0) {
           subset.getAddresses().stream().map(address -> {
@@ -136,7 +137,7 @@ public class KubernetesNameResolver extends NameResolver {
 
           @Override
           public void onClose(KubernetesClientException e) {
-
+            watching = false;
           }
         });
   }
