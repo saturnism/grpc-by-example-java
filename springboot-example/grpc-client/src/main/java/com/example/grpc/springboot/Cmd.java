@@ -19,23 +19,28 @@ package com.example.grpc.springboot;
 import com.example.echo.EchoOuterClass;
 import com.example.echo.EchoServiceGrpc;
 import io.grpc.Channel;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.autoconfigure.grpc.client.GrpcChannelFactory;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Created by rayt on 5/18/16.
  */
 @Component
-@EnableDiscoveryClient
 public class Cmd {
   @Autowired
   public Cmd(ApplicationArguments args, @Qualifier("discoveryClientChannelFactory") GrpcChannelFactory channelFactory,
              DiscoveryClient discoveryClient) {
+
     discoveryClient.getServices();
     Channel channel = channelFactory.createChannel("EchoService");
 
