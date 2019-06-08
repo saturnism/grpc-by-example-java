@@ -31,5 +31,14 @@
         <module>chat-server</module>
         <module>chat-javafx-client</module>
         <module>chat-vaadin-client</module>
-  </modules>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+    </dependencies>
+
 </project>
