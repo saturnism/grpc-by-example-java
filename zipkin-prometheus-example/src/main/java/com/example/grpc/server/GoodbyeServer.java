@@ -35,7 +35,7 @@ public class GoodbyeServer {
   static public void main(String[] args) throws IOException, InterruptedException {
     Brave brave = Constant.brave("goodbye-service");
     ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
-        .usePlaintext(true)
+        .usePlaintext()
         .intercept(new BraveGrpcClientInterceptor(brave))
         .build();
     GreetingServiceGrpc.GreetingServiceBlockingStub greetingStub = GreetingServiceGrpc.newBlockingStub(channel);
