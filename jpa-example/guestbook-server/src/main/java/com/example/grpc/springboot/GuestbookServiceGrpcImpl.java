@@ -20,6 +20,8 @@ import com.example.guestbook.*;
 import io.grpc.stub.StreamObserver;
 import org.springframework.boot.autoconfigure.grpc.server.GrpcService;
 
+import java.util.Optional;
+
 /**
  * Created by rayt on 6/20/17.
  */
@@ -41,16 +43,15 @@ public class GuestbookServiceGrpcImpl extends GuestbookServiceGrpc.GuestbookServ
 
   @Override
   public void findOne(FindOneRequest request, StreamObserver<GuestbookEntry> responseObserver) {
-    GuestbookEntryDomain entry = repository.findOne(request.getId());
-    if (entry != null) {
-      responseObserver.onNext(entry.toProto());
-    }
+    Optional<GuestbookEntryDomain> entry = repository.findById(request.getId());
+    entry.map(e -> e.toProto())
+            .ifPresent(responseObserver::onNext);
     responseObserver.onCompleted();
   }
 
   @Override
   public void delete(DeleteRequest request, StreamObserver<DeleteResponse> responseObserver) {
-    repository.delete(request.getId());
+    repository.deleteById(request.getId());
     responseObserver.onNext(DeleteResponse.getDefaultInstance());
     responseObserver.onCompleted();
   }
