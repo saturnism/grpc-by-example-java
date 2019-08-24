@@ -29,7 +29,7 @@
     <artifactId>rxjava-server</artifactId>
 
     <properties>
-        <rxgrpc.version>0.6.1</rxgrpc.version>
+        <rxgrpc.version>1.0.0</rxgrpc.version>
         <main.class>com.example.grpc.server.RxMetricsServer</main.class>
     </properties>
 
