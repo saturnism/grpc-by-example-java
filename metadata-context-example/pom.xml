@@ -32,7 +32,7 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>2.2.0</version>
+            <version>3.8.3</version>
         </dependency>
     </dependencies>
 
