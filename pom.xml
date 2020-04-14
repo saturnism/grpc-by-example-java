@@ -45,6 +45,7 @@
         <module>jpa-example</module>
         <module>kubernetes-lb-example</module>
         <module>error-handling-example</module>
+        <module>armeria-example</module>
     </modules>
 
     <dependencies>
