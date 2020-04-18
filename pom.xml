@@ -161,7 +161,7 @@
                 <plugin>
                     <groupId>com.spotify</groupId>
                     <artifactId>dockerfile-maven-plugin</artifactId>
-                    <version>1.2.2</version>
+                    <version>1.4.13</version>
                     <configuration>
                         <repository>${docker.image.prefix}/${project.artifactId}</repository>
                         <tag>latest</tag>
