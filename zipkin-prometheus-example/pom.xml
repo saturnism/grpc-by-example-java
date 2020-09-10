@@ -32,7 +32,7 @@
         <dependency>
             <groupId>io.zipkin.brave</groupId>
             <artifactId>brave-grpc</artifactId>
-            <version>3.14.0</version>
+            <version>4.13.6</version>
             <exclusions>
                 <exclusion>
                     <groupId>io.grpc</groupId>
