@@ -30,7 +30,7 @@ public class GoodbyeServer {
     JwtServerInterceptor jwtInterceptor = new JwtServerInterceptor(Constant.JWT_SECRET);
 
     ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
-        .usePlaintext(true)
+        .usePlaintext()
         .intercept(new JwtClientInterceptor())
         .intercept(new TraceIdClientInterceptor())
         .build();

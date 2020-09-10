@@ -63,7 +63,7 @@ public class ChatClient extends Application {
 
     primaryStage.show();
 
-    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9090).usePlaintext(true).build();
+    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9090).usePlaintext().build();
     ChatServiceGrpc.ChatServiceStub chatService = ChatServiceGrpc.newStub(channel);
     StreamObserver<Chat.ChatMessage> chat = chatService.chat(new StreamObserver<Chat.ChatMessageFromServer>() {
       @Override

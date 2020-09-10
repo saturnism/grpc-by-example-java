@@ -42,7 +42,8 @@ public class MetricsRxClient {
   }
 
   public static void main(String[] args) throws InterruptedException, ExecutionException {
-    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext(true).build();
+    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
+        .usePlaintext().build();
 
     rx.Observable<Long> metrics = rx.Observable.from(new Long[] {1L, 2L, 3L, 4L, 5L, 6L, 7L});
 

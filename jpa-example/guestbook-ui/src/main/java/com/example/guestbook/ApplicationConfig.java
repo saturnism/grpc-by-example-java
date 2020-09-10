@@ -32,7 +32,7 @@ public class ApplicationConfig {
   @Bean
   Channel channel() {
     return ManagedChannelBuilder.forTarget(guestbookServiceEndpoint)
-        .usePlaintext(true)
+        .usePlaintext()
         .build();
   }
 

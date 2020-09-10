@@ -36,12 +36,12 @@ public class AuthClient {
     JwtCallCredential callCredential = new JwtCallCredential(jwt);
 
     ManagedChannel greetingChannel = ManagedChannelBuilder.forAddress("localhost", 8080)
-        .usePlaintext(true)
+        .usePlaintext()
         .intercept(new TraceIdClientInterceptor())
         .build();
 
     ManagedChannel goodbyeChannel = ManagedChannelBuilder.forAddress("localhost", 9090)
-        .usePlaintext(true)
+        .usePlaintext()
         .intercept(new TraceIdClientInterceptor())
         .build();
 

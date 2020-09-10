@@ -42,7 +42,7 @@ public class ChatUI extends UI {
   private static final Logger logger = Logger.getLogger(ChatUI.class.getName());
   private static final ManagedChannel channel = ManagedChannelBuilder
       .forAddress("localhost" , 9090)
-      .usePlaintext(true)
+      .usePlaintext()
       .build();
 
   private static final ChatServiceGrpc.ChatServiceStub stub = ChatServiceGrpc.newStub(channel);

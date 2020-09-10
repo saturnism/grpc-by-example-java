@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class RxMetricsClient {
   public static void main(String[] args) throws InterruptedException, ExecutionException {
-    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext(true).build();
+    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext().build();
 
     RxMetricsServiceGrpc.RxMetricsServiceStub rxStub = RxMetricsServiceGrpc.newRxStub(channel);
 

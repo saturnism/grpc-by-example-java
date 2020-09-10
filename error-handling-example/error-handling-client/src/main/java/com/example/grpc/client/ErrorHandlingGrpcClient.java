@@ -34,7 +34,7 @@ public class ErrorHandlingGrpcClient {
   private static final Logger logger = Logger.getLogger(ErrorHandlingGrpcClient.class.getName());
   public static void main(String[] args) throws InterruptedException {
     ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 8080)
-        .usePlaintext(true)
+        .usePlaintext()
         .build();
 
     final EchoRequest request = EchoRequest.getDefaultInstance();
